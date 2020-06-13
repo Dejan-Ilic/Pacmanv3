@@ -20,13 +20,15 @@ SOURCES += \
     leveleditor.cpp \
     levelmaker.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    vec.cpp
 
 HEADERS += \
     game.h \
     leveleditor.h \
     levelmaker.h \
-    mainwindow.h
+    mainwindow.h \
+    vec.h
 
 FORMS += \
     levelmaker.ui \

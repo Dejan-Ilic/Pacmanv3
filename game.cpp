@@ -1,10 +1,11 @@
 #include "game.h"
 
-#include <QGraphicsRectItem>
 #include <QBrush>
 #include <Qt>
 #include <QKeyEvent>
 #include <QDebug>
+
+#include <QTimer>
 
 Game::Game(QWidget *parent){
 	//init screen
@@ -19,10 +20,18 @@ Game::Game(QWidget *parent){
 	//setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 
 	//init player
-	QGraphicsRectItem *rect = new QGraphicsRectItem();
+	rect = new QGraphicsRectItem();
 	rect->setRect(300,400,100,100);
 	scene->addItem(rect);
 
+	QTimer *timer = new QTimer();
+	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(moveRect()));
+	timer->start(1000/60.0);
+
+}
+
+void Game::moveRect(){
+	rect->setPos(rect->x() + direction.x, rect->y() + direction.y);
 }
 
 void Game::keyPressEvent(QKeyEvent *event){
@@ -30,15 +39,19 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 	switch(key){
 	case Qt::Key_Left:
+		direction = Vec(-1,0);
 		qDebug() << "left";
 		break;
 	case Qt::Key_Right:
+		direction = Vec(1,0);
 		qDebug() << "right";
 		break;
 	case Qt::Key_Up:
+		direction = Vec(0, -1);
 		qDebug() << "up";
 		break;
 	case Qt::Key_Down:
+		direction = Vec(0,1);
 		qDebug() << "down";
 		break;
 	case Qt::Key_K:

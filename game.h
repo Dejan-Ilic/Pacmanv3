@@ -4,6 +4,9 @@
 #include <QGraphicsView>
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QGraphicsRectItem>
+
+#include "vec.h"
 
 class Game: public QGraphicsView{
 	Q_OBJECT
@@ -12,6 +15,12 @@ public:
 
 private:
 	QGraphicsScene *scene;
+
+
+	Vec direction = Vec();
+	QGraphicsRectItem *rect;
+
+
 	void keyPressEvent(QKeyEvent *event) override;
 
 signals:
@@ -20,6 +29,7 @@ signals:
 
 private slots:
 	void on_MainMenuButton_clicked();
+	void moveRect();
 
 
 };

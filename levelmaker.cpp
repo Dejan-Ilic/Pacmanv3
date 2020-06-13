@@ -2,7 +2,10 @@
 #include "levelmaker.h"
 #include "ui_levelmaker.h"
 
+#include <QDebug>
 #include <QInputDialog>
+#include <fstream>
+using namespace std;
 
 LevelMaker::LevelMaker(QWidget *parent) :
 	QWidget(parent),
@@ -38,7 +41,27 @@ void LevelMaker::openEditor(QString lvlname){
 }
 
 void LevelMaker::makeEmptyLevel(QString lvlname){
+	ofstream myfile;
+	myfile.open ( (lvlname + ".lvl").toStdString() );
 
+	for(int j=0; j<WIDTH; j++){
+		myfile << 'w';
+	}
+	myfile << endl;
+
+	for(int i=0+1; i<HEIGHT-1; ++i){
+		myfile << 'w';
+		for(int j=0+1; j<WIDTH-1; ++j){
+			myfile << 'e';
+		}
+		myfile << 'w';
+		myfile << endl;
+	}
+
+	for(int j=0; j<WIDTH; j++){
+		myfile << 'w';
+	}
+	myfile.close();
 }
 
 void LevelMaker::on_MainMenuButton_clicked(){

@@ -1,6 +1,9 @@
 #ifndef LEVELMAKER_H
 #define LEVELMAKER_H
 
+#define WIDTH 30
+#define HEIGHT 20
+
 #include <QWidget>
 
 namespace Ui {
