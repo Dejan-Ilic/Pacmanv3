@@ -25,11 +25,11 @@ private:
 
 signals:
 	void MainMenuButton_clicked();
-	void toFirstPage();
 
 private slots:
 	void on_MainMenuButton_clicked();
 	void on_NewButton_clicked();
+	void toFirstPage();
 };
 
 #endif // LEVELMAKER_H
