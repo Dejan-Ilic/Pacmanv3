@@ -18,28 +18,28 @@ MainWindow::~MainWindow(){
 		delete subscreen;
 }
 
-
-void MainWindow::on_GameButton_clicked(){
-	subscreen = new Game();
+void MainWindow::newSubScreen(QWidget *ss){
+	subscreen = ss;
 	ui->stackedWidget->addWidget(subscreen);
-	connect(subscreen, SIGNAL(MainMenuButton_clicked()), this, SLOT(toMainMenu()));
+	connect(subscreen, SIGNAL(MainMenuButton_clicked()), this, SLOT(toFirstPage()));
 
 	ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_LevelMakerButton_clicked(){
-	subscreen = new LevelMaker();
-	ui->stackedWidget->addWidget(subscreen);
-	connect(subscreen, SIGNAL(MainMenuButton_clicked()), this, SLOT(toMainMenu()));
-
-
-	ui->stackedWidget->setCurrentIndex(1);
-}
-
-void MainWindow::toMainMenu(){
+void MainWindow::toFirstPage(){
 	ui->stackedWidget->setCurrentIndex(0);
 	ui->stackedWidget->removeWidget(subscreen);
 	delete subscreen;
 	subscreen = nullptr;
-
 }
+
+
+
+void MainWindow::on_GameButton_clicked(){
+	newSubScreen(new Game());
+}
+
+void MainWindow::on_LevelMakerButton_clicked(){
+	newSubScreen(new LevelMaker());
+}
+

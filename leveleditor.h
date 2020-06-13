@@ -16,11 +16,11 @@ private:
 	void keyPressEvent(QKeyEvent *event) override;
 
 signals:
-	void backToLevelMaker();
+	void MainMenuButton_clicked();
 
 
 private slots:
-	void on_backToLevelMaker();
+	void on_MainMenuButton_clicked();
 
 
 };

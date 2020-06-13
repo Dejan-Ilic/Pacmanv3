@@ -31,12 +31,12 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 	switch(key){
 	case Qt::Key_K:
 		qDebug() << "k";
-		on_backToLevelMaker();
+		on_MainMenuButton_clicked();
 		break;
 	}
 
 }
 
-void LevelEditor::on_backToLevelMaker(){
-	emit backToLevelMaker();
+void LevelEditor::on_MainMenuButton_clicked(){
+	emit MainMenuButton_clicked();
 }

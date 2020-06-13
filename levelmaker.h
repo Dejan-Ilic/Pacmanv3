@@ -21,11 +21,11 @@ private:
 
 	void openEditor(QString lvlname);
 	void makeEmptyLevel(QString lvlname);
-	void toFirstPage();
+	void newSubScreen(QWidget *ss);
 
 signals:
 	void MainMenuButton_clicked();
-
+	void toFirstPage();
 
 private slots:
 	void on_MainMenuButton_clicked();

@@ -15,13 +15,15 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
-private slots:
-	void on_GameButton_clicked();
-	void on_LevelMakerButton_clicked();
-	void toMainMenu();
-
 private:
 	Ui::MainWindow *ui;
 	QWidget *subscreen;
+
+	void newSubScreen(QWidget*);
+
+private slots:
+	void on_GameButton_clicked();
+	void on_LevelMakerButton_clicked();
+	void toFirstPage();
 };
 #endif // MAINWINDOW_H
