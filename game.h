@@ -21,6 +21,7 @@ signals:
 private slots:
 	void on_MainMenuButton_clicked();
 
+
 };
 
 #endif // GAME_H
