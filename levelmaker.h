@@ -17,6 +17,11 @@ public:
 
 private:
 	Ui::LevelMaker *ui;
+	QWidget *subscreen;
+
+	void openEditor(QString lvlname);
+	void makeEmptyLevel(QString lvlname);
+	void toFirstPage();
 
 signals:
 	void MainMenuButton_clicked();
@@ -24,6 +29,7 @@ signals:
 
 private slots:
 	void on_MainMenuButton_clicked();
+	void on_NewButton_clicked();
 };
 
 #endif // LEVELMAKER_H

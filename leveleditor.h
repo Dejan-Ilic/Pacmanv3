@@ -1,14 +1,15 @@
-#ifndef LEVELCREATOR_H
-#define LEVELCREATOR_H
+#ifndef LEVELEDITOR_H
+#define LEVELEDITOR_H
+
 
 #include <QGraphicsView>
 #include <QWidget>
 #include <QGraphicsScene>
 
-class LevelCreator: public QGraphicsView{
+class LevelEditor: public QGraphicsView{
 	Q_OBJECT
 public:
-	LevelCreator(QWidget *parent=0);
+	LevelEditor(QWidget *parent=0);
 
 private:
 	QGraphicsScene *scene;
@@ -24,4 +25,4 @@ private slots:
 
 };
 
-#endif // LEVELCREATOR_H
+#endif // LEVELEDITOR_H

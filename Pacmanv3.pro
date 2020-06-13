@@ -17,19 +17,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     game.cpp \
-    gameover.cpp \
+    leveleditor.cpp \
     levelmaker.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     game.h \
-    gameover.h \
+    leveleditor.h \
     levelmaker.h \
     mainwindow.h
 
 FORMS += \
-    gameover.ui \
     levelmaker.ui \
     mainwindow.ui
 

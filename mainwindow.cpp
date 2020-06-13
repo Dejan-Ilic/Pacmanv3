@@ -9,10 +9,13 @@ MainWindow::MainWindow(QWidget *parent)
 	, ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	subscreen = nullptr;
 }
 
 MainWindow::~MainWindow(){
 	delete ui;
+	if(subscreen != nullptr)
+		delete subscreen;
 }
 
 
@@ -35,9 +38,8 @@ void MainWindow::on_LevelMakerButton_clicked(){
 
 void MainWindow::toMainMenu(){
 	ui->stackedWidget->setCurrentIndex(0);
-
-
 	ui->stackedWidget->removeWidget(subscreen);
 	delete subscreen;
+	subscreen = nullptr;
 
 }

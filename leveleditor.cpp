@@ -1,4 +1,4 @@
-#include "levelcreator.h"
+#include "leveleditor.h"
 
 #include <QGraphicsRectItem>
 #include <QBrush>
@@ -6,7 +6,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-LevelCreator::LevelCreator(QWidget *parent){
+LevelEditor::LevelEditor(QWidget *parent){
 	//init screen
 	scene = new QGraphicsScene();
 	scene->setSceneRect(0,0,800,600);
@@ -25,7 +25,7 @@ LevelCreator::LevelCreator(QWidget *parent){
 
 }
 
-void LevelCreator::keyPressEvent(QKeyEvent *event){
+void LevelEditor::keyPressEvent(QKeyEvent *event){
 	const int key = event->key();
 
 	switch(key){
@@ -37,6 +37,6 @@ void LevelCreator::keyPressEvent(QKeyEvent *event){
 
 }
 
-void LevelCreator::on_backToLevelMaker(){
+void LevelEditor::on_backToLevelMaker(){
 	emit backToLevelMaker();
 }
