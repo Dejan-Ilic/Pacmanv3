@@ -6,6 +6,7 @@
 
 #include "vec.h"
 #include "idx.h"
+#include "visual.h"
 
 
 enum Type{
@@ -22,7 +23,7 @@ enum Type{
 	error
 };
 
-class Tile: public QObject, public QGraphicsPixmapItem{
+class Tile: public Visual{
 public:
 	Tile(enum Type t=empty);
 	Tile(const Tile &t);
@@ -35,10 +36,9 @@ public:
 	static enum Type decode(char c);
 	static QString getImage(enum Type t);
 
-	static Vec getScreenPos(int i, int j);
-	static Vec getScreenPos(Idx v);
-	void setPos_ij(int i, int j);
-	void setPos_ij(Idx v);
+	void setPos_ij(int i, int j) override;
+	void setPos_ij(Idx v) override;
+
 private:
 	enum Type type;
 

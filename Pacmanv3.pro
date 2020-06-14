@@ -23,7 +23,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     sprite.cpp \
-    tile.cpp
+    tile.cpp \
+    visual.cpp
 
 HEADERS += \
     constants.h \
@@ -35,7 +36,8 @@ HEADERS += \
     mainwindow.h \
     sprite.h \
     tile.h \
-    vec.h
+    vec.h \
+    visual.h
 
 FORMS += \
     levelmaker.ui \
