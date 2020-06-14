@@ -22,13 +22,14 @@ Game::Game(QWidget *parent){
 
 	//init level
 	level = new Level("Level1", DRAWMODE_GAME, scene);
+		//todo: check if level is correctly loaded
 
 	//init ghosts
 
 
 	//init player
 	pacman = new Sprite(":/images/pacman1", 4);
-	pacman->setPos(100,100);
+	pacman->setPos_ij(level->getSpawn());
 	scene->addItem(pacman);
 
 
@@ -40,7 +41,7 @@ Game::Game(QWidget *parent){
 }
 
 void Game::render(){
-	pacman->move(nullptr);
+	pacman->move(level);
 }
 
 void Game::keyPressEvent(QKeyEvent *event){

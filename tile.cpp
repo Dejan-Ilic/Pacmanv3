@@ -1,4 +1,5 @@
 #include "tile.h"
+#include "constants.h"
 
 Tile::Tile(enum Type t): QObject(), QGraphicsPixmapItem(){
 	setType(t);
@@ -65,4 +66,21 @@ char Tile::encode(enum Type t){
 	case spawn: return 's';
 	}
 	return 0;
+}
+
+Vec Tile::getScreenPos(int i, int j){
+	return Vec(j*TILE_WIDTH, i*TILE_HEIGHT);
+}
+
+Vec Tile::getScreenPos(Idx v){
+	return Tile::getScreenPos(v.i, v.j);
+}
+
+void Tile::setPos_ij(int i, int j){
+	Vec v = getScreenPos(i,j);
+	this->setPos(v.x, v.y);
+}
+
+void Tile::setPos_ij(Idx v){
+	setPos_ij(v.i, v.j);
 }

@@ -23,12 +23,12 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     sprite.cpp \
-    tile.cpp \
-    vec.cpp
+    tile.cpp
 
 HEADERS += \
     constants.h \
     game.h \
+    idx.h \
     level.h \
     leveleditor.h \
     levelmaker.h \

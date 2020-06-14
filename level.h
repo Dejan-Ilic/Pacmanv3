@@ -1,6 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 #include "tile.h"
+#include "idx.h"
 #include <QGraphicsScene>
 
 enum DrawMode{
@@ -16,16 +17,18 @@ public:
 	enum Type getType(int i, int j);
 	void setType(int i, int j, enum Type t);
 	bool isLoadedCorrectly(){return correctly_loaded;}
-
+	Idx getSpawn();
 
 
 private:
 	Tile *tiles;
-	Tile emptytile; //the null tile
+	Tile emptytile; //the "out of bounds" tile
 
 	int width, height;
 	bool correctly_loaded;
 	enum DrawMode drawmode;
+
+	Idx spawnlocation;
 
 	Tile& getTile(int i, int j);
 

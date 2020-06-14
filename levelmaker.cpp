@@ -52,7 +52,10 @@ void LevelMaker::makeEmptyLevel(QString lvlname){
 	for(int i=0+1; i<LEVEL_HEIGHT-1; ++i){
 		myfile << 'w';
 		for(int j=0+1; j<LEVEL_WIDTH-1; ++j){
-			myfile << 'e';
+			if(j==LEVEL_WIDTH/2 && i==1)
+				myfile << 's';
+			else
+				myfile << 'e';
 		}
 		myfile << 'w';
 		myfile << endl;

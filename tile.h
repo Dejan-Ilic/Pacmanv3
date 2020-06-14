@@ -4,6 +4,9 @@
 #include <QGraphicsRectItem>
 #include <QObject>
 
+#include "vec.h"
+#include "idx.h"
+
 
 enum Type{
 	empty,
@@ -31,6 +34,11 @@ public:
 	static char encode(enum Type t);
 	static enum Type decode(char c);
 	static QString getImage(enum Type t);
+
+	static Vec getScreenPos(int i, int j);
+	static Vec getScreenPos(Idx v);
+	void setPos_ij(int i, int j);
+	void setPos_ij(Idx v);
 private:
 	enum Type type;
 

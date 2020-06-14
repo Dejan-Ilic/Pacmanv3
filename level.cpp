@@ -39,8 +39,13 @@ Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): drawmode(dm
 		QString line = file.readLine();
 		for(int j=0; j<width; ++j){
 			char c = line.at(j).toLatin1();
-			getTile(i,j).setType(Tile::decode(c));
-			getTile(i,j).setPos(j*TILE_WIDTH, i*TILE_HEIGHT);
+			Type type = Tile::decode(c);
+			if(type == spawn){
+				spawnlocation = Idx(i,j);
+			}
+
+			getTile(i,j).setType(type);
+			getTile(i,j).setPos_ij(i,j);
 			scene->addItem(&getTile(i,j));
 			qDebug() << "added tile " << i << ", " << j;
 		}
@@ -71,3 +76,9 @@ enum Type Level::getType(int i, int j){
 void Level::setType(int i, int j, enum Type t){
 	getTile(i,j).setType(t);
 }
+
+Idx Level::getSpawn()
+{
+	return spawnlocation;
+}
+
