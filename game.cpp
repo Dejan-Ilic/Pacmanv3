@@ -1,4 +1,5 @@
 #include "game.h"
+#include "constants.h"
 
 #include <QBrush>
 #include <Qt>
@@ -17,21 +18,29 @@ Game::Game(QWidget *parent){
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setFixedSize(800, 600);
 
-	//setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
+	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
+
+	//init level
+	level = new Level("Level1", DRAWMODE_GAME, scene);
+
+	//init ghosts
+
 
 	//init player
-	rect = new QGraphicsRectItem();
-	rect->setRect(300,400,100,100);
-	scene->addItem(rect);
+	pacman = new Sprite(":/images/pacman1", 4);
+	pacman->setPos(100,100);
+	scene->addItem(pacman);
 
+
+	//init timer
 	QTimer *timer = new QTimer();
-	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(moveRect()));
-	timer->start(1000/60.0);
+	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(render()));
+	timer->start(FRAMETIME);
 
 }
 
-void Game::moveRect(){
-	rect->setPos(rect->x() + direction.x, rect->y() + direction.y);
+void Game::render(){
+	pacman->move(nullptr);
 }
 
 void Game::keyPressEvent(QKeyEvent *event){
@@ -39,19 +48,19 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 	switch(key){
 	case Qt::Key_Left:
-		direction = Vec(-1,0);
+		pacman->setNextDir(-1,0);
 		qDebug() << "left";
 		break;
 	case Qt::Key_Right:
-		direction = Vec(1,0);
+		pacman->setNextDir(1,0);
 		qDebug() << "right";
 		break;
 	case Qt::Key_Up:
-		direction = Vec(0, -1);
+		pacman->setNextDir(0, -1);
 		qDebug() << "up";
 		break;
 	case Qt::Key_Down:
-		direction = Vec(0,1);
+		pacman->setNextDir(0,1);
 		qDebug() << "down";
 		break;
 	case Qt::Key_K:

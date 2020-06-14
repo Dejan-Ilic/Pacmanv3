@@ -7,6 +7,9 @@
 #include <QGraphicsRectItem>
 
 #include "vec.h"
+#include "sprite.h"
+#include "level.h"
+
 
 class Game: public QGraphicsView{
 	Q_OBJECT
@@ -15,11 +18,9 @@ public:
 
 private:
 	QGraphicsScene *scene;
-
-
 	Vec direction = Vec();
-	QGraphicsRectItem *rect;
-
+	Sprite *pacman;
+	Level *level;
 
 	void keyPressEvent(QKeyEvent *event) override;
 
@@ -29,7 +30,7 @@ signals:
 
 private slots:
 	void on_MainMenuButton_clicked();
-	void moveRect();
+	void render();
 
 
 };

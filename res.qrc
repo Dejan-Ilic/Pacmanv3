@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>coin.png</file>
+        <file>empty.png</file>
+        <file>fruit.png</file>
+        <file>ghost_blue.png</file>
+        <file>ghost_eyes.png</file>
+        <file>ghost_floor.png</file>
+        <file>ghost_gate.png</file>
+        <file>ghost_green.png</file>
+        <file>ghost_red.png</file>
+        <file>ghost_scared.png</file>
+        <file>ghost_yellow.png</file>
+        <file>mh5ftwt8qr251.jpg</file>
+        <file>pacman0.png</file>
+        <file>pacman1.png</file>
+        <file>pill.png</file>
+        <file>wall.png</file>
+        <file>error.png</file>
+        <file>spawn.png</file>
+    </qresource>
+</RCC>

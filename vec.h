@@ -5,8 +5,9 @@
 class Vec
 {
 public:
-	double x,y;
-	Vec(double x = 0, double y = 0): x(x), y(y){};
+	int x,y;
+	Vec(int x = 0, int y = 0): x(x), y(y){};
+	Vec(const Vec &v): x(v.x), y(v.y){};
 };
 
 #endif // VEC_H

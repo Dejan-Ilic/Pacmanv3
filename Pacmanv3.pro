@@ -17,17 +17,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     game.cpp \
+    level.cpp \
     leveleditor.cpp \
     levelmaker.cpp \
     main.cpp \
     mainwindow.cpp \
+    sprite.cpp \
+    tile.cpp \
     vec.cpp
 
 HEADERS += \
+    constants.h \
     game.h \
+    level.h \
     leveleditor.h \
     levelmaker.h \
     mainwindow.h \
+    sprite.h \
+    tile.h \
     vec.h
 
 FORMS += \
@@ -38,3 +45,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

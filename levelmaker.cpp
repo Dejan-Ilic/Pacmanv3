@@ -44,21 +44,21 @@ void LevelMaker::makeEmptyLevel(QString lvlname){
 	ofstream myfile;
 	myfile.open ( (lvlname + ".lvl").toStdString() );
 
-	for(int j=0; j<WIDTH; j++){
+	for(int j=0; j<LEVEL_WIDTH; j++){
 		myfile << 'w';
 	}
 	myfile << endl;
 
-	for(int i=0+1; i<HEIGHT-1; ++i){
+	for(int i=0+1; i<LEVEL_HEIGHT-1; ++i){
 		myfile << 'w';
-		for(int j=0+1; j<WIDTH-1; ++j){
+		for(int j=0+1; j<LEVEL_WIDTH-1; ++j){
 			myfile << 'e';
 		}
 		myfile << 'w';
 		myfile << endl;
 	}
 
-	for(int j=0; j<WIDTH; j++){
+	for(int j=0; j<LEVEL_WIDTH; j++){
 		myfile << 'w';
 	}
 	myfile.close();
