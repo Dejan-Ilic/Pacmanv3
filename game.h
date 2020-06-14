@@ -18,7 +18,6 @@ public:
 
 private:
 	QGraphicsScene *scene;
-	Vec direction = Vec();
 	Sprite *pacman;
 	Level *level;
 

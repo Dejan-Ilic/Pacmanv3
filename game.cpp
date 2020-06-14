@@ -28,7 +28,7 @@ Game::Game(QWidget *parent){
 
 
 	//init player
-	pacman = new Sprite(":/images/pacman1", 4);
+	pacman = new Sprite(":/images/pacman1", 2);
 	pacman->setPos_ij(level->getSpawn());
 	scene->addItem(pacman);
 
@@ -49,19 +49,19 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 	switch(key){
 	case Qt::Key_Left:
-		pacman->setNextDir(-1,0);
+		pacman->setNextDir(LEFT);
 		qDebug() << "left";
 		break;
 	case Qt::Key_Right:
-		pacman->setNextDir(1,0);
+		pacman->setNextDir(RIGHT);
 		qDebug() << "right";
 		break;
 	case Qt::Key_Up:
-		pacman->setNextDir(0, -1);
+		pacman->setNextDir(UP);
 		qDebug() << "up";
 		break;
 	case Qt::Key_Down:
-		pacman->setNextDir(0,1);
+		pacman->setNextDir(DOWN);
 		qDebug() << "down";
 		break;
 	case Qt::Key_K:

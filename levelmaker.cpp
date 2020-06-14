@@ -37,7 +37,7 @@ void LevelMaker::toFirstPage(){
 }
 
 void LevelMaker::openEditor(QString lvlname){
-	newSubScreen(new LevelEditor());
+	newSubScreen(new LevelEditor(lvlname));
 }
 
 void LevelMaker::makeEmptyLevel(QString lvlname){
@@ -52,7 +52,7 @@ void LevelMaker::makeEmptyLevel(QString lvlname){
 	for(int i=0+1; i<LEVEL_HEIGHT-1; ++i){
 		myfile << 'w';
 		for(int j=0+1; j<LEVEL_WIDTH-1; ++j){
-			if(j==LEVEL_WIDTH/2 && i==1)
+			if(j==LEVEL_WIDTH/2 && i==LEVEL_HEIGHT - 2)
 				myfile << 's';
 			else
 				myfile << 'e';

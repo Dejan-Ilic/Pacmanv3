@@ -16,7 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    direction.cpp \
     game.cpp \
+    idx.cpp \
     level.cpp \
     leveleditor.cpp \
     levelmaker.cpp \
@@ -24,10 +26,12 @@ SOURCES += \
     mainwindow.cpp \
     sprite.cpp \
     tile.cpp \
+    vec.cpp \
     visual.cpp
 
 HEADERS += \
     constants.h \
+    direction.h \
     game.h \
     idx.h \
     level.h \

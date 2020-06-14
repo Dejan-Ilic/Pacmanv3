@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 	subscreen = nullptr;
+	setWindowTitle("PACMAN - DEJAN ILIC");
 }
 
 MainWindow::~MainWindow(){

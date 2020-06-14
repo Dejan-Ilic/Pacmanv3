@@ -11,12 +11,15 @@
 class LevelEditor: public QGraphicsView{
 	Q_OBJECT
 public:
-	LevelEditor(QWidget *parent=0);
+	LevelEditor(QString levelname, QWidget *parent=0);
 
 private:
 	QGraphicsScene *scene;
 	Level *level;
+	QString levelname;
+
 	void keyPressEvent(QKeyEvent *event) override;
+	void mousePressEvent(QMouseEvent *event) override;
 
 signals:
 	void MainMenuButton_clicked();

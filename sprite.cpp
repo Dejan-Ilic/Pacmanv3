@@ -8,17 +8,22 @@ Sprite::Sprite(QString appearance, int spd): speed(spd){
 
 
 void Sprite::move(const Level *level){
-
 	curdir = nextdir;
-	this->setPos(this->x() + speed * curdir.x, this->y() + speed * curdir.y);
+	Vec dir = Vec(curdir);
+	this->setPos(this->x() + speed * dir.x, this->y() + speed * dir.y);
 }
 
-void Sprite::setNextDir(int x, int y){
-	nextdir = Vec(x,y);
+void Sprite::setNextDir(Direction d){
+	nextdir = d;
+	setRotation(getPacmanRotation(d));
 }
 
 void Sprite::setSpeed(int s){
 	speed = s;
+}
+
+void Sprite::setCanPassGate(bool b){
+	canPassGate = b;
 }
 
 void Sprite::setPos_ij(int i, int j){

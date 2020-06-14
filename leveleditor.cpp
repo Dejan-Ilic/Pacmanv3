@@ -6,7 +6,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-LevelEditor::LevelEditor(QWidget *parent){
+LevelEditor::LevelEditor(QString levelname, QWidget *parent){
 	//init screen
 	scene = new QGraphicsScene();
 	scene->setSceneRect(0,0,800,600);
@@ -16,12 +16,10 @@ LevelEditor::LevelEditor(QWidget *parent){
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setFixedSize(800, 600);
 
-	//setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
+	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 
-	//init player
-	QGraphicsRectItem *rect = new QGraphicsRectItem();
-	rect->setRect(300,400,100,100);
-	scene->addItem(rect);
+	//init level
+	level = new Level(levelname, DRAWMODE_EDITOR, scene);
 
 }
 
@@ -35,6 +33,10 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 		break;
 	}
 
+}
+
+void LevelEditor::mousePressEvent(QMouseEvent *event){
+	qDebug() << "le clique";
 }
 
 void LevelEditor::on_MainMenuButton_clicked(){

@@ -5,7 +5,7 @@
 #include <QByteArray>
 #include <QDebug>
 
-Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): drawmode(dm), width(0), height(0){
+Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): width(0), height(0), drawmode(dm){
 	//read the level file
 
 	//check if it exists
