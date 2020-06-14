@@ -189,6 +189,19 @@
       <string>Delete</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="SelectButton_2">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>390</y>
+       <width>81</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rename</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

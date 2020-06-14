@@ -14,14 +14,16 @@ public:
 	void move(const Level *level);
 	void changeAppearance(QString img);
 	void setNextDir(int x, int y);
+	void setSpeed(int s);
 
 	void setPos_ij(int i, int j) override;
 	void setPos_ij(Idx v) override;
 
-private:
+protected:
 	int speed;
 	Vec curdir;
 	Vec nextdir;
+	bool canPassGate = false;
 };
 
 #endif // SPRITE_H

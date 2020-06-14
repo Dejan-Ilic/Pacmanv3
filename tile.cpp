@@ -3,7 +3,7 @@
 
 Tile::Tile(enum Type t){
 	setType(t);
-
+	setTransformOriginPoint(TILE_WIDTH/2, TILE_HEIGHT/2);
 }
 
 Tile::Tile(const Tile &t){
@@ -77,3 +77,5 @@ void Tile::setPos_ij(int i, int j){
 void Tile::setPos_ij(Idx v){
 	setPos_ij(v.i, v.j);
 }
+
+

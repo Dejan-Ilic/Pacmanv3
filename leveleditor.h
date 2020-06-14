@@ -6,6 +6,8 @@
 #include <QWidget>
 #include <QGraphicsScene>
 
+#include "level.h"
+
 class LevelEditor: public QGraphicsView{
 	Q_OBJECT
 public:
@@ -13,6 +15,7 @@ public:
 
 private:
 	QGraphicsScene *scene;
+	Level *level;
 	void keyPressEvent(QKeyEvent *event) override;
 
 signals:

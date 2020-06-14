@@ -8,12 +8,17 @@ Sprite::Sprite(QString appearance, int spd): speed(spd){
 
 
 void Sprite::move(const Level *level){
+
 	curdir = nextdir;
 	this->setPos(this->x() + speed * curdir.x, this->y() + speed * curdir.y);
 }
 
 void Sprite::setNextDir(int x, int y){
 	nextdir = Vec(x,y);
+}
+
+void Sprite::setSpeed(int s){
+	speed = s;
 }
 
 void Sprite::setPos_ij(int i, int j){

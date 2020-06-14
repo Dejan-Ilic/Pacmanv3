@@ -47,7 +47,6 @@ Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): drawmode(dm
 			getTile(i,j).setType(type);
 			getTile(i,j).setPos_ij(i,j);
 			scene->addItem(&getTile(i,j));
-			qDebug() << "added tile " << i << ", " << j;
 		}
 
 	}
@@ -77,8 +76,15 @@ void Level::setType(int i, int j, enum Type t){
 	getTile(i,j).setType(t);
 }
 
-Idx Level::getSpawn()
-{
+Idx Level::getSpawn(){
 	return spawnlocation;
+}
+
+int Level::getWidth(){
+	return width;
+}
+
+int Level::getHeight(){
+	return height;
 }
 

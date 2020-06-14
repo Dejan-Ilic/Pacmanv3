@@ -18,6 +18,8 @@ public:
 	void setType(int i, int j, enum Type t);
 	bool isLoadedCorrectly(){return correctly_loaded;}
 	Idx getSpawn();
+	int getWidth();
+	int getHeight();
 
 
 private:
