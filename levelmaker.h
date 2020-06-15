@@ -23,14 +23,22 @@ private:
 
 	void openEditor(QString lvlname);
 	void newSubScreen(QWidget *ss);
+	void updateLists();
 
 signals:
 	void MainMenuButton_clicked();
 
 private slots:
 	void on_MainMenuButton_clicked();
-	void on_NewButton_clicked();
+	void on_EditButton_clicked();
 	void toFirstPage();
+
+	void on_SelectButton_clicked();
+	void on_DeleteButton_clicked();
+	void on_DeselectButton_clicked();
+	void on_UpButton_clicked();
+	void on_DownButton_clicked();
+	void on_RenameButton_clicked();
 };
 
 #endif // LEVELMAKER_H

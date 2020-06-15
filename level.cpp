@@ -83,6 +83,8 @@ bool Level::loadLevel(){
 
 		}
 
+		file.close();
+
 	}
 
 	//now find all useful squares:
@@ -181,6 +183,7 @@ QString Level::saveLevel(){
 		}
 		myfile << endl;
 	}
+	myfile.close();
 
 	correctly_saved = true;
 	return "Save succesful";

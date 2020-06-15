@@ -12,4 +12,6 @@
 
 #define FRAMETIME 1000/60.0
 
+#define LEVEL_ORDER "levelorder.ord"
+
 #endif // CONSTANTS_H
