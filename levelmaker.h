@@ -24,6 +24,7 @@ private:
 	void openEditor(QString lvlname);
 	void newSubScreen(QWidget *ss);
 	void updateLists();
+	void saveLevelOrder();
 
 signals:
 	void MainMenuButton_clicked();

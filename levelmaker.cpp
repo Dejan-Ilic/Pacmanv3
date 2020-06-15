@@ -50,7 +50,8 @@ void LevelMaker::updateLists(){
 	//init selected levels
 	ui->selectedLevels->clear();
 	QFile file(LEVEL_ORDER);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text) && levelfiles.length() > 0){//nothing found, so
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text) && levelfiles.length() > 0){
+		//no pre-existing order file, so make a new one
 		QString levelname = levelfiles[0];
 		levelname = levelname.left(levelname.length() - 4);
 
@@ -63,6 +64,7 @@ void LevelMaker::updateLists(){
 		ui->selectedLevels->addItem(levelname);
 
 	}else{
+		//read order file and display it
 		QTextStream in(&file);
 
 		while(!in.atEnd()){
@@ -87,7 +89,31 @@ void LevelMaker::openEditor(QString lvlname){
 	newSubScreen(new LevelEditor(lvlname));
 }
 
+void LevelMaker::saveLevelOrder(){
+	QFile file(LEVEL_ORDER);
+
+	ofstream myfile;
+	myfile.open ( string(LEVEL_ORDER) );
+
+	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+		QListWidgetItem* item = ui->selectedLevels->item(i);
+
+		QString levelname = item->text();
+		levelname = levelname.left(levelname.length() - 4);
+
+
+		myfile << levelname.toStdString() << endl;
+	}
+
+	myfile.close();
+
+}
+
 void LevelMaker::on_MainMenuButton_clicked(){
+	//save levelorder
+	saveLevelOrder();
+
+	//return to menu
 	emit MainMenuButton_clicked();
 }
 
@@ -99,40 +125,163 @@ void LevelMaker::on_EditButton_clicked(){
 		defaulttext = selecteditems[0]->text();
 	}
 
-
 	QString s = QInputDialog::getText(this, "New level name", "Name:", QLineEdit::Normal, defaulttext);
-
 
 	openEditor(s);
 
 }
 
-void LevelMaker::on_SelectButton_clicked()
-{
+void LevelMaker::on_SelectButton_clicked(){
+	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	if(selecteditems.length() == 0){
+		return;
+	}
+
+	QString text = selecteditems[0]->text();
+
+	//duplicates are a good idea after all...
+	/*
+	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+		QListWidgetItem* item = ui->selectedLevels->item(i);
+		if(item->text() == text){
+			return;
+		}
+	}
+	*/
+
+	ui->availableLevels->addItem(text);
+
+	saveLevelOrder();
 
 }
 
-void LevelMaker::on_DeleteButton_clicked()
-{
+void LevelMaker::on_DeselectButton_clicked(){
+	QList<QListWidgetItem *> selecteditems = ui->selectedLevels->selectedItems();
+	if(selecteditems.length() == 0){
+		return;
+	}
 
+	ui->selectedLevels->removeItemWidget(selecteditems[0]);
+
+	saveLevelOrder();
 }
 
-void LevelMaker::on_DeselectButton_clicked()
-{
+void LevelMaker::on_RenameButton_clicked(){
+	QString defaulttext = "";
+	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	if(selecteditems.length() > 0){
+		defaulttext = selecteditems[0]->text();
+	}else{
+		return;
+	}
 
+	QString newname = QInputDialog::getText(this, "Rename level file", "New name:", QLineEdit::Normal, defaulttext);
+
+	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+		QListWidgetItem* item = ui->selectedLevels->item(i);
+		if(item->text() == defaulttext){
+			item->setText(newname);
+		}
+	}
+	for(int i = 0; i < ui->availableLevels->count(); ++i){
+		QListWidgetItem* item = ui->availableLevels->item(i);
+		if(item->text() == defaulttext){
+			item->setText(newname);
+		}
+	}
+
+	//delete file
+	QFile file(defaulttext + ".lvl");
+	file.remove();
+
+	saveLevelOrder();
 }
 
-void LevelMaker::on_UpButton_clicked()
-{
+void LevelMaker::on_UpButton_clicked(){
+	QListWidgetItem *move;
+	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	if(selecteditems.length() > 0){
+		move = selecteditems[0];
+	}else{
+		return;
+	}
 
+	int moveidx = 0;
+
+	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+		if(move == ui->selectedLevels->item(i)){
+			moveidx = i;
+			break;
+		}
+	}
+
+	if(moveidx > 0){
+		ui->selectedLevels->removeItemWidget(move);
+		ui->selectedLevels->insertItem(moveidx - 1, move);
+
+		saveLevelOrder();
+	}
 }
 
-void LevelMaker::on_DownButton_clicked()
-{
+void LevelMaker::on_DownButton_clicked(){
+	QListWidgetItem *move;
+	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	if(selecteditems.length() > 0){
+		move = selecteditems[0];
+	}else{
+		return;
+	}
 
+	int moveidx = 0;
+
+	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+		if(move == ui->selectedLevels->item(i)){
+			moveidx = i;
+			break;
+		}
+	}
+
+	if(moveidx < ui->selectedLevels->count()){
+		ui->selectedLevels->removeItemWidget(move);
+		ui->selectedLevels->insertItem(moveidx + 1, move);
+
+		saveLevelOrder();
+	}
 }
 
-void LevelMaker::on_RenameButton_clicked()
-{
+void LevelMaker::on_DeleteButton_clicked(){
+	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	if(selecteditems.length() == 0){
+		return;
+	}
 
+	QString text = selecteditems[0]->text();
+
+	//remove from the available levels
+	ui->availableLevels->removeItemWidget(selecteditems[0]);
+
+	//remove from the selected levels
+	const int C = ui->selectedLevels->count();
+
+	for(int i = C - 1; i <= 0; --i){
+		if(text == ui->selectedLevels->item(i)->text()){
+			ui->selectedLevels->removeItemWidget(ui->selectedLevels->item(i));
+		}
+	}
+
+	//delete file
+	QFile file(text + ".lvl");
+	file.remove();
+
+	saveLevelOrder();
 }
+
+
+
+
+
+
+
+
+
+
