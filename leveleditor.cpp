@@ -2,12 +2,21 @@
 
 #include <QGraphicsRectItem>
 #include <QBrush>
-#include <Qt>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMessageBox>
 
-LevelEditor::LevelEditor(QString levelname, QWidget *parent){
+const Vec LevelEditor::labelpos[] = {Vec(0, 550), Vec(100, 550), Vec(200, 550), Vec(300, 550), Vec(400, 550),
+									 Vec(0, 580), Vec(100, 580), Vec(200, 580), Vec(300, 580), Vec(400, 580)};
+const QString LevelEditor::caption[] = {"(E)empty", "(W)all", "ghost_(G)ate", "ghost_(F)loor", "(S)pawn",
+										"teleport(A)", "teleport(B)", "Frui(T)", "(C)oin", "(P)ill"};
+const Type LevelEditor::drawtype[] = {empty, wall, ghost_gate, ghost_floor, spawn,
+									  teleportA, teleportB, fruit, coin, pill};
+
+LevelEditor::LevelEditor(QString levelname, QWidget *parent):
+	unselected(QBrush(Qt::white)),
+	selected(QBrush(Qt::red))
+{
 	//init screen
 	scene = new QGraphicsScene();
 	scene->setSceneRect(0,0,800,600);
@@ -22,21 +31,60 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent){
 	//init level
 	level = new Level(levelname, DRAWMODE_EDITOR, scene);
 
-	//show modes
-	const int Nlabels = 10;
-	QString labels[Nlabels] = {"(E)empty", "(W)all", "ghost_(G)ate", "ghost_(F)loor", "(S)pawn",
-							   "teleport(A)", "teleport(B)", "(F)ruit", "(C)oin", "(P)ill"};
+	for(int i=0; i<Nlabels; ++i){
+		drawmode = drawtype[i];
+		Vec pos = labelpos[i];
 
+		label[i] = scene->addSimpleText(caption[i]);
+		label[i]->setPos(pos.x, pos.y);
+		label[i]->setBrush(unselected);
+	}
 
+	//drawmode back to empty
+	drawmode = empty;
+	label[0]->setBrush(selected);
 
+	//quit label
+	quit = scene->addSimpleText("quit (K)");
+	quit->setPos(700, 500);
+	quit->setBrush(unselected);
+}
 
+LevelEditor::~LevelEditor(){
+	delete quit;
+	for(int i=0; i<Nlabels; ++i){
+		delete label[i];
+	}
+}
+
+void LevelEditor::switchMode(Type t){
+	int prev_but = getButtonIdx(drawmode);
+	int next_but = getButtonIdx(t);
+
+	drawmode = t;
+
+	label[prev_but]->setBrush(unselected);
+	label[next_but]->setBrush(selected);
 
 }
 
-int LevelEditor::getSelectorPos(){
-	switch(this->drawmode){
+int LevelEditor::getButtonIdx(Type t){
+	switch(t){
+	case empty: return 0;
+	case wall: return 1;
+	case ghost_gate: return 2;
+	case ghost_floor: return 3;
+	case spawn: return 4;
 
+	case teleportA: return 5;
+	case teleportB: return 6;
+	case fruit: return 7;
+	case coin: return 8;
+	case pill: return 9;
+
+	default: return 0;
 	}
+
 }
 
 void LevelEditor::saveLevel(){
@@ -53,6 +101,7 @@ void LevelEditor::saveLevel(){
 	}
 }
 
+
 void LevelEditor::keyPressEvent(QKeyEvent *event){
 	const int key = event->key();
 
@@ -60,12 +109,45 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 	case Qt::Key_K:
 		saveLevel();
 		break;
+
+	case Qt::Key_E:
+		switchMode(empty);
+		break;
+	case Qt::Key_W:
+		switchMode(wall);
+		break;
+	case Qt::Key_G:
+		switchMode(ghost_gate);
+		break;
+	case Qt::Key_F:
+		switchMode(ghost_floor);
+		break;
+	case Qt::Key_S:
+		switchMode(spawn);
+		break;
+
+	case Qt::Key_A:
+		switchMode(teleportA);
+		break;
+	case Qt::Key_B:
+		switchMode(teleportB);
+		break;
+	case Qt::Key_T:
+		switchMode(fruit);
+		break;
+	case Qt::Key_C:
+		switchMode(coin);
+		break;
+	case Qt::Key_P:
+		switchMode(pill);
+		break;
+
 	}
 
 }
 
 void LevelEditor::mousePressEvent(QMouseEvent *event){
-	qDebug() << "le clique";
+	qDebug() << "le clique: " << event->x() << ", " << event->y();
 }
 
 void LevelEditor::on_MainMenuButton_clicked(){
