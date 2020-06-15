@@ -5,6 +5,7 @@
 #include <Qt>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QMessageBox>
 
 #include <QTimer>
 
@@ -22,7 +23,11 @@ Game::Game(QWidget *parent){
 
 	//init level
 	level = new Level("Level1", DRAWMODE_GAME, scene);
-		//todo: check if level is correctly loaded
+	if(!level->isCorrectlyLoaded()){
+		QMessageBox::warning(this, "LEVEL LOADING ERROR",
+	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press \"K\" to quit.");
+		return;
+	}
 
 	//init ghosts
 
@@ -50,22 +55,17 @@ void Game::keyPressEvent(QKeyEvent *event){
 	switch(key){
 	case Qt::Key_Left:
 		pacman->setNextDir(LEFT);
-		qDebug() << "left";
 		break;
 	case Qt::Key_Right:
 		pacman->setNextDir(RIGHT);
-		qDebug() << "right";
 		break;
 	case Qt::Key_Up:
 		pacman->setNextDir(UP);
-		qDebug() << "up";
 		break;
 	case Qt::Key_Down:
 		pacman->setNextDir(DOWN);
-		qDebug() << "down";
 		break;
 	case Qt::Key_K:
-		qDebug() << "k";
 		on_MainMenuButton_clicked();
 		break;
 	}

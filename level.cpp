@@ -2,6 +2,7 @@
 #include "constants.h"
 
 #include <QFile>
+#include <QString>
 #include <QByteArray>
 #include <QDebug>
 
@@ -85,7 +86,7 @@ bool Level::loadLevel(){
 	}
 
 	//now find all useful squares:
-	for(int i=0; i<height; ++i){
+	for(int i=0; i<height; ++i){   //todo
 		for(int j=0; j<width; ++j){
 			Type t = getType(i,j);
 			if(t == spawn){
@@ -184,7 +185,6 @@ QString Level::saveLevel(){
 	correctly_saved = true;
 	return "Save succesful";
 }
-
 
 enum Type Level::getType(int i, int j) const{
 	Tile t = tiles[i*width + j]; //cannot use getTile

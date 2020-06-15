@@ -30,17 +30,26 @@ void Sprite::move(const Level *level){
 
 	//qDebug() << cursquare.x << ", " << cursquare.y << " | " << x << ", " << y;
 
-	if(passWanted && curdir != nextdir  && (abs(wantedsquare.x - x) <= speed || abs(wantedsquare.y - y) <= speed)){//take the turn
+	if(abs(curidx.i) == abs(nextidx.i) && abs(curidx.j) == abs(nextidx.j) && curidx.i != nextidx.i && curidx.j != nextidx.j){
+		//zelfde richting, tegenovergestelde zin
+		curdir = nextdir;
+		setRotation(getPacmanRotation(curdir));
+
+
+	}else if(passWanted && curdir != nextdir  && (abs(wantedsquare.x - x) <= speed || abs(wantedsquare.y - y) <= speed)){
+		//take the turn
 		this->setPos_ij(curidx.i, curidx.j);
 		curdir = nextdir;
 		setRotation(getPacmanRotation(curdir));
 
 
-	}else if(!passNext  && cursquare.l1dist(Vec(x, y)) <= speed){ //stop just before wall, perfectly in the center
+	}else if(!passNext  && cursquare.l1dist(Vec(x, y)) <= speed){
+		//stop just before wall, perfectly in the center
 		this->setPos_ij(curidx.i, curidx.j);
 
 
-	}else{ //just move forward
+	}else{
+		//just move forward
 		Vec dir = Vec(curdir);
 		this->setPos(this->x() + speed * dir.x, this->y() + speed * dir.y);
 	}

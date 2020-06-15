@@ -34,7 +34,9 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 	//init level
 	level = new Level(levelname, DRAWMODE_EDITOR, scene);
 	if(!level->isCorrectlyLoaded()){
-		//todo: throw something
+		QMessageBox::warning(this, "LEVEL LOADING ERROR",
+	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press \"K\" to quit.");
+		return;
 	}
 
 
@@ -101,7 +103,7 @@ void LevelEditor::saveLevel(){
 	if(level->isCorrectlySaved()){
 		on_MainMenuButton_clicked();
 	}else{
-		QMessageBox::warning(this, tr("MAP EDITOR ERROR"), reason);
+		QMessageBox::warning(this, "LEVEL EDITOR ERROR", reason);
 	}
 }
 
