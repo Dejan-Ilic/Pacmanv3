@@ -99,7 +99,7 @@ void LevelMaker::saveLevelOrder(){
 		QListWidgetItem* item = ui->selectedLevels->item(i);
 
 		QString levelname = item->text();
-		levelname = levelname.left(levelname.length() - 4);
+		//levelname = levelname.left(levelname.length() - 4);
 
 
 		myfile << levelname.toStdString() << endl;
@@ -126,6 +126,9 @@ void LevelMaker::on_EditButton_clicked(){
 	}
 
 	QString s = QInputDialog::getText(this, "New level name", "Name:", QLineEdit::Normal, defaulttext);
+	if(s.length() == 0){
+		return;
+	}
 
 	openEditor(s);
 
@@ -139,17 +142,7 @@ void LevelMaker::on_SelectButton_clicked(){
 
 	QString text = selecteditems[0]->text();
 
-	//duplicates are a good idea after all...
-	/*
-	for(int i = 0; i < ui->selectedLevels->count(); ++i){
-		QListWidgetItem* item = ui->selectedLevels->item(i);
-		if(item->text() == text){
-			return;
-		}
-	}
-	*/
-
-	ui->availableLevels->addItem(text);
+	ui->selectedLevels->addItem(text);
 
 	saveLevelOrder();
 
@@ -162,6 +155,7 @@ void LevelMaker::on_DeselectButton_clicked(){
 	}
 
 	ui->selectedLevels->removeItemWidget(selecteditems[0]);
+	delete selecteditems[0];
 
 	saveLevelOrder();
 }
@@ -176,6 +170,9 @@ void LevelMaker::on_RenameButton_clicked(){
 	}
 
 	QString newname = QInputDialog::getText(this, "Rename level file", "New name:", QLineEdit::Normal, defaulttext);
+	if(newname.length() == 0){
+		return;
+	}
 
 	for(int i = 0; i < ui->selectedLevels->count(); ++i){
 		QListWidgetItem* item = ui->selectedLevels->item(i);
@@ -190,25 +187,28 @@ void LevelMaker::on_RenameButton_clicked(){
 		}
 	}
 
-	//delete file
+	//rename file
 	QFile file(defaulttext + ".lvl");
-	file.remove();
+	file.open(QIODevice::WriteOnly | QIODevice::Text);
+	file.rename(newname + ".lvl");
+	file.close();
 
 	saveLevelOrder();
 }
 
 void LevelMaker::on_UpButton_clicked(){
 	QListWidgetItem *move;
-	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	QList<QListWidgetItem *> selecteditems = ui->selectedLevels->selectedItems();
 	if(selecteditems.length() > 0){
 		move = selecteditems[0];
 	}else{
 		return;
 	}
 
+	const int C = ui->selectedLevels->count();
 	int moveidx = 0;
 
-	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+	for(int i = 0; i < C; ++i){
 		if(move == ui->selectedLevels->item(i)){
 			moveidx = i;
 			break;
@@ -216,8 +216,19 @@ void LevelMaker::on_UpButton_clicked(){
 	}
 
 	if(moveidx > 0){
-		ui->selectedLevels->removeItemWidget(move);
-		ui->selectedLevels->insertItem(moveidx - 1, move);
+		QListWidgetItem *itemA = ui->selectedLevels->item(moveidx);
+		QListWidgetItem *itemB = ui->selectedLevels->item(moveidx-1);
+
+		QString textA = itemA->text();
+		QString textB = itemB->text();
+
+		itemA->setSelected(false);
+		itemB->setSelected(true);
+
+		itemA->setText(textB);
+		itemB->setText(textA);
+
+		ui->selectedLevels->updateGeometry();
 
 		saveLevelOrder();
 	}
@@ -225,25 +236,37 @@ void LevelMaker::on_UpButton_clicked(){
 
 void LevelMaker::on_DownButton_clicked(){
 	QListWidgetItem *move;
-	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	QList<QListWidgetItem *> selecteditems = ui->selectedLevels->selectedItems();
 	if(selecteditems.length() > 0){
 		move = selecteditems[0];
 	}else{
 		return;
 	}
 
+	const int C = ui->selectedLevels->count();
 	int moveidx = 0;
 
-	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+	for(int i = 0; i < C; ++i){
 		if(move == ui->selectedLevels->item(i)){
 			moveidx = i;
 			break;
 		}
 	}
 
-	if(moveidx < ui->selectedLevels->count()){
-		ui->selectedLevels->removeItemWidget(move);
-		ui->selectedLevels->insertItem(moveidx + 1, move);
+	if(moveidx < C-1){
+		QListWidgetItem *itemA = ui->selectedLevels->item(moveidx);
+		QListWidgetItem *itemB = ui->selectedLevels->item(moveidx+1);
+
+		QString textA = itemA->text();
+		QString textB = itemB->text();
+
+		itemA->setSelected(false);
+		itemB->setSelected(true);
+
+		itemA->setText(textB);
+		itemB->setText(textA);
+
+		ui->selectedLevels->updateGeometry();
 
 		saveLevelOrder();
 	}
@@ -254,34 +277,52 @@ void LevelMaker::on_DeleteButton_clicked(){
 	if(selecteditems.length() == 0){
 		return;
 	}
-
 	QString text = selecteditems[0]->text();
-
-	//remove from the available levels
-	ui->availableLevels->removeItemWidget(selecteditems[0]);
 
 	//remove from the selected levels
 	const int C = ui->selectedLevels->count();
 
-	for(int i = C - 1; i <= 0; --i){
-		if(text == ui->selectedLevels->item(i)->text()){
-			ui->selectedLevels->removeItemWidget(ui->selectedLevels->item(i));
+	for(int i = C - 1; i >= 0; --i){
+		QListWidgetItem *item = ui->selectedLevels->item(i);
+
+		if(text == item->text()){
+			ui->selectedLevels->removeItemWidget(item);
+			delete item;
 		}
 	}
+
+	//remove from the available levels
+	ui->availableLevels->removeItemWidget(selecteditems[0]);
+	delete selecteditems[0];
 
 	//delete file
 	QFile file(text + ".lvl");
 	file.remove();
+	file.close();
 
 	saveLevelOrder();
 }
 
+void LevelMaker::on_CopyButton_clicked(){
+	QString defaulttext = "";
+	QList<QListWidgetItem *> selecteditems = ui->availableLevels->selectedItems();
+	if(selecteditems.length() > 0){
+		defaulttext = selecteditems[0]->text();
+	}else{
+		return;
+	}
 
+	QString newname = QInputDialog::getText(this, "Copy of " + defaulttext + "\'s name", "Name:", QLineEdit::Normal, defaulttext);
+	if(newname.length() == 0){
+		return;
+	}
 
+	ui->availableLevels->addItem(newname);
 
+	//copy file
+	QFile file(defaulttext + ".lvl");
+	file.copy(newname + ".lvl");
+	file.close();
 
-
-
-
-
-
+	saveLevelOrder();
+}

@@ -40,6 +40,7 @@ private slots:
 	void on_UpButton_clicked();
 	void on_DownButton_clicked();
 	void on_RenameButton_clicked();
+	void on_CopyButton_clicked();
 };
 
 #endif // LEVELMAKER_H
