@@ -42,6 +42,7 @@ private:
 
 	void keyPressEvent(QKeyEvent *event) override;
 	void mousePressEvent(QMouseEvent *event) override;
+	void mouseMoveEvent(QMouseEvent *event) override;
 
 signals:
 	void MainMenuButton_clicked();

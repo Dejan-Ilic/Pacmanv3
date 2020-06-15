@@ -4,8 +4,7 @@
 
 #include <QDebug>
 #include <QInputDialog>
-#include <fstream>
-using namespace std;
+
 
 LevelMaker::LevelMaker(QWidget *parent) :
 	QWidget(parent),
@@ -40,33 +39,6 @@ void LevelMaker::openEditor(QString lvlname){
 	newSubScreen(new LevelEditor(lvlname));
 }
 
-void LevelMaker::makeEmptyLevel(QString lvlname){
-	ofstream myfile;
-	myfile.open ( (lvlname + ".lvl").toStdString() );
-
-	for(int j=0; j<LEVEL_WIDTH; j++){
-		myfile << Tile::encode(wall);
-	}
-	myfile << endl;
-
-	for(int i=0+1; i<LEVEL_HEIGHT-1; ++i){
-		myfile <<  Tile::encode(wall);
-		for(int j=0+1; j<LEVEL_WIDTH-1; ++j){
-			if(j==LEVEL_WIDTH/2 && i==LEVEL_HEIGHT - 2)
-				myfile << Tile::encode(spawn);
-			else
-				myfile << Tile::encode(coin);
-		}
-		myfile <<  Tile::encode(wall);
-		myfile << endl;
-	}
-
-	for(int j=0; j<LEVEL_WIDTH; j++){
-		myfile <<  Tile::encode(wall);
-	}
-	myfile.close();
-}
-
 void LevelMaker::on_MainMenuButton_clicked(){
 	emit MainMenuButton_clicked();
 }
@@ -74,8 +46,6 @@ void LevelMaker::on_MainMenuButton_clicked(){
 
 void LevelMaker::on_NewButton_clicked(){
 	QString s = QInputDialog::getText(this, "New level name", "Name:");
-
-	makeEmptyLevel(s);
 
 	openEditor(s);
 

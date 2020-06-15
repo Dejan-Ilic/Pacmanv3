@@ -5,53 +5,13 @@
 #include <QByteArray>
 #include <QDebug>
 
-Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): width(0), height(0), drawmode(dm){
+#include <fstream>
+#include <string>
+using namespace std;
+
+Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): levelname(levelname), width(0), height(0), drawmode(dm), scene(scene){
 	//read the level file
-
-	//check if it exists
-	QFile file(levelname + ".lvl");
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-		correctly_loaded = false;
-		return;
-	}
-	qDebug() << "file exists";
-
-	//check if it has consistent dimensions
-	QTextStream in(&file);
-
-	while(!in.atEnd()){
-		QString line = in.readLine();
-		if(width == 0){
-			width = line.length();
-		}else if(width != line.length()){
-			correctly_loaded = false;
-			return;
-		}
-		++height;
-	}
-	qDebug() << "file has consistent dimensions: H=" << height << ", W=" << width;
-
-	//now load into tiles array
-	tiles = new Tile[width * height];
-
-	in.seek(0);
-	for(int i=0; i<height; ++i){
-		QString line = file.readLine();
-		for(int j=0; j<width; ++j){
-			char c = line.at(j).toLatin1();
-			Type type = Tile::decode(c);
-			if(type == spawn){
-				spawnlocation = Idx(i,j);
-			}
-
-			getTile(i,j).setType(type);
-			getTile(i,j).setPos_ij(i,j);
-			scene->addItem(&getTile(i,j));
-		}
-
-	}
-
-	correctly_loaded = true;
+	loadLevel();
 
 }
 
@@ -64,6 +24,165 @@ Tile& Level::getTile(int i, int j){
 		return emptytile;
 	}
 	return tiles[i*width + j];
+}
+
+bool Level::loadLevel(){
+	//check if it exists
+	QFile file(levelname + ".lvl");
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){//nothing found, so make standard level
+		width = LEVEL_WIDTH;
+		height = LEVEL_HEIGHT;
+
+		tiles = new Tile[width * height];
+
+		for(int j=0; j<width; j++){
+			initTile(0,j,wall);
+		}
+
+		for(int i=0+1; i<height-1; ++i){
+			initTile(i,0,wall);
+			for(int j=0+1; j<width-1; ++j){
+				initTile(i,j,coin);
+			}
+			initTile(i,width-1,wall);
+		}
+
+		setType(height-2, width/2, spawn);
+
+		for(int j=0; j<width; j++){
+			initTile(height-1,j,wall);
+		}
+	}else{
+		//check if it has consistent dimensions
+		QTextStream in(&file);
+
+		while(!in.atEnd()){
+			QString line = in.readLine();
+			if(width == 0){
+				width = line.length();
+			}else if(width != line.length()){
+				correctly_loaded = false;
+				return false;
+			}
+			++height;
+		}
+		qDebug() << "file has consistent dimensions: H=" << height << ", W=" << width;
+
+		//now load into tiles array
+		tiles = new Tile[width * height];
+
+		in.seek(0);
+		for(int i=0; i<height; ++i){
+			QString line = file.readLine();
+			for(int j=0; j<width; ++j){
+				char c = line.at(j).toLatin1();
+				Type type = Tile::decode(c);
+				initTile(i,j,type);
+			}
+
+		}
+
+	}
+
+	//now find all useful squares:
+	for(int i=0; i<height; ++i){
+		for(int j=0; j<width; ++j){
+			Type t = getType(i,j);
+			if(t == spawn){
+				spawnlocation = Idx(i,j);
+			}
+		}
+	}
+
+
+	correctly_loaded = true;
+	return true;
+}
+
+
+QString Level::saveLevel(){
+	correctly_saved = false;
+	if(drawmode != DRAWMODE_EDITOR){
+		return "Cannot save levels in game mode!";
+	}
+
+	//check all conditions
+	{
+		Type tij;
+		//condition 1: outer walls
+		for(int i=0; i<LEVEL_HEIGHT; ++i){
+			tij = getType(i,0);
+			if(tij != wall && tij != teleportA && tij != teleportB){
+				correctly_saved = false;
+				return "Missing outer wall";
+			}
+		}
+		for(int i=0; i<LEVEL_HEIGHT; ++i){
+			tij = getType(i,LEVEL_WIDTH-1);
+			if(tij != wall && tij != teleportA && tij != teleportB){
+				correctly_saved = false;
+				return "Missing outer wall";
+			}
+		}
+		for(int j=0; j<LEVEL_WIDTH; ++j){
+			tij = getType(0,j);
+			if(tij != wall && tij != teleportA && tij != teleportB){
+				correctly_saved = false;
+				return "Missing outer wall";
+			}
+		}
+		for(int j=0; j<LEVEL_WIDTH; ++j){
+			tij = getType(LEVEL_HEIGHT-1,j);
+			if(tij != wall && tij != teleportA && tij != teleportB){
+				correctly_saved = false;
+				return "Missing outer wall";
+			}
+		}
+		//condition 2: counts
+		int spawncount = 0; //should be 1
+		int tpAcount = 0, tpBcount = 0; //teleports: a=b=1 or 0;
+		int gfcount = 0, ggcount = 0; //4 ghost floors needed, 2 ghost gates needed
+
+		for(int i=0; i<LEVEL_HEIGHT; ++i){
+			for(int j=0; j<LEVEL_WIDTH; ++j){
+				tij = getType(i,j);
+				switch(tij){
+				case spawn: ++spawncount; break;
+				case teleportA: ++tpAcount; break;
+				case teleportB: ++tpBcount; break;
+				case ghost_gate: ++ggcount; break;
+				case ghost_floor: ++gfcount; break;
+				}
+			}
+		}
+
+		if(spawncount != 1){
+			correctly_saved = false;
+			return QString("Exactly 1 spawn is needed, %1 were found.").arg(spawncount);
+		}else if(tpAcount > 1 || tpBcount > 1 || tpAcount != tpBcount){
+			correctly_saved = false;
+			return "Exactly 0 of both teleportA and teleportB are needed or exactly 1 of both.";
+		}else if(ggcount != 2){
+			correctly_saved = false;
+			return QString("Exactly 2 ghost gates are needed, %1 were found.").arg(ggcount);
+		}else if(gfcount != 4){
+			correctly_saved = false;
+			return QString("Exactly 4 ghost floors are needed, %1 were found.").arg(gfcount);
+		}
+
+	}
+	//now save the file
+	ofstream myfile;
+	myfile.open ( (levelname + ".lvl").toStdString() );
+	for(int i=0; i<LEVEL_HEIGHT; ++i){
+		for(int j=0; j<LEVEL_WIDTH; ++j){
+			myfile << Tile::encode(this->getType(i,j));
+		}
+		myfile << endl;
+	}
+
+	correctly_saved = true;
+	return "Save succesful";
 }
 
 
@@ -80,8 +199,18 @@ void Level::setType(int i, int j, enum Type t){
 	getTile(i,j).setType(t);
 }
 
-bool Level::isLoadedCorrectly() const{
+void Level::initTile(int i, int j, enum Type t){
+	getTile(i,j).setType(t);
+	getTile(i,j).setPos_ij(i,j);
+	scene->addItem(&getTile(i,j));
+}
+
+bool Level::isCorrectlyLoaded() const{
 	return correctly_loaded;
+}
+
+bool Level::isCorrectlySaved() const{
+	return correctly_saved;
 }
 
 Idx Level::getSpawn() const{
@@ -95,4 +224,6 @@ int Level::getWidth() const{
 int Level::getHeight() const{
 	return height;
 }
+
+
 

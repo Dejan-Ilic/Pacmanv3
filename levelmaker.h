@@ -22,7 +22,6 @@ private:
 	QWidget *subscreen;
 
 	void openEditor(QString lvlname);
-	void makeEmptyLevel(QString lvlname);
 	void newSubScreen(QWidget *ss);
 
 signals:

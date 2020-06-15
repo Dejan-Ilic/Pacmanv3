@@ -17,23 +17,31 @@ public:
 	enum Type getType(int i, int j) const;
 	enum Type getType(const Idx &v) const;
 	void setType(int i, int j, enum Type t);
-	bool isLoadedCorrectly() const;
+	bool isCorrectlyLoaded() const;
+	bool isCorrectlySaved() const;
 	Idx getSpawn() const;
 	int getWidth() const;
 	int getHeight() const;
+
+	QString saveLevel();
 
 
 private:
 	Tile *tiles;
 	Tile emptytile; //the "out of bounds" tile
 
+	QString levelname;
 	int width, height;
-	bool correctly_loaded;
+	bool correctly_loaded = false;
+	bool correctly_saved = false;
 	enum DrawMode drawmode;
+	QGraphicsScene *scene;
 
 	Idx spawnlocation;
 
 	Tile& getTile(int i, int j);
+	void initTile(int i, int j, enum Type t);
+	bool loadLevel();
 
 
 };

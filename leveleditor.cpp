@@ -33,7 +33,12 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 
 	//init level
 	level = new Level(levelname, DRAWMODE_EDITOR, scene);
+	if(!level->isCorrectlyLoaded()){
+		//todo: throw something
+	}
 
+
+	//init editor gui
 	for(int i=0; i<Nlabels; ++i){
 		drawmode = drawtype[i];
 		Vec pos = labelpos[i];
@@ -91,13 +96,9 @@ int LevelEditor::getButtonIdx(Type t){
 }
 
 void LevelEditor::saveLevel(){
-	bool leveliscorrect = true;
-	QString reason = "something went wrong, you should not see this text";
+	QString reason = level->saveLevel();
 
-	//check the level for correctness, if errors are found then report with dialogbox
-
-
-	if(leveliscorrect){
+	if(level->isCorrectlySaved()){
 		on_MainMenuButton_clicked();
 	}else{
 		QMessageBox::warning(this, tr("MAP EDITOR ERROR"), reason);
@@ -153,9 +154,11 @@ void LevelEditor::mousePressEvent(QMouseEvent *event){
 	int i = floor(0.5 + (event->y() - TILE_HEIGHT/2)/static_cast<double>(TILE_HEIGHT));
 	int j = floor(0.5 + (event->x() - TILE_WIDTH/2)/static_cast<double>(TILE_WIDTH));
 
-	qDebug() << "le clique: " << i << ", " << j;
-
 	level->setType(i,j,drawmode);
+}
+
+void LevelEditor::mouseMoveEvent(QMouseEvent *event){
+	mousePressEvent(event);
 }
 
 void LevelEditor::on_MainMenuButton_clicked(){
