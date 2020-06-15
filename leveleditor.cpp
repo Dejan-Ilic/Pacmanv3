@@ -1,4 +1,7 @@
 #include "leveleditor.h"
+#include "constants.h"
+
+#include <math.h>
 
 #include <QGraphicsRectItem>
 #include <QBrush>
@@ -147,7 +150,12 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 }
 
 void LevelEditor::mousePressEvent(QMouseEvent *event){
-	qDebug() << "le clique: " << event->x() << ", " << event->y();
+	int i = floor(0.5 + (event->y() - TILE_HEIGHT/2)/static_cast<double>(TILE_HEIGHT));
+	int j = floor(0.5 + (event->x() - TILE_WIDTH/2)/static_cast<double>(TILE_WIDTH));
+
+	qDebug() << "le clique: " << i << ", " << j;
+
+	level->setType(i,j,drawmode);
 }
 
 void LevelEditor::on_MainMenuButton_clicked(){

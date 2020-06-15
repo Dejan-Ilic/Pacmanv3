@@ -1,6 +1,7 @@
 #include "tile.h"
 #include "constants.h"
 
+
 Tile::Tile(enum Type t){
 	setType(t);
 	setTransformOriginPoint(TILE_WIDTH/2, TILE_HEIGHT/2);

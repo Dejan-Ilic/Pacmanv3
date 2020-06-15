@@ -17,5 +17,7 @@
         <file>wall.png</file>
         <file>error.png</file>
         <file>spawn.png</file>
+        <file>teleportA.png</file>
+        <file>teleportB.png</file>
     </qresource>
 </RCC>

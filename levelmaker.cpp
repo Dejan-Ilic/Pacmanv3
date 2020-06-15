@@ -45,24 +45,24 @@ void LevelMaker::makeEmptyLevel(QString lvlname){
 	myfile.open ( (lvlname + ".lvl").toStdString() );
 
 	for(int j=0; j<LEVEL_WIDTH; j++){
-		myfile << 'w';
+		myfile << Tile::encode(wall);
 	}
 	myfile << endl;
 
 	for(int i=0+1; i<LEVEL_HEIGHT-1; ++i){
-		myfile << 'w';
+		myfile <<  Tile::encode(wall);
 		for(int j=0+1; j<LEVEL_WIDTH-1; ++j){
 			if(j==LEVEL_WIDTH/2 && i==LEVEL_HEIGHT - 2)
-				myfile << 's';
+				myfile << Tile::encode(spawn);
 			else
-				myfile << 'e';
+				myfile << Tile::encode(coin);
 		}
-		myfile << 'w';
+		myfile <<  Tile::encode(wall);
 		myfile << endl;
 	}
 
 	for(int j=0; j<LEVEL_WIDTH; j++){
-		myfile << 'w';
+		myfile <<  Tile::encode(wall);
 	}
 	myfile.close();
 }
