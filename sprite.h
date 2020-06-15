@@ -20,10 +20,14 @@ public:
 	void setPos_ij(int i, int j) override;
 	void setPos_ij(Idx v) override;
 
+	int getCenterX() const override;
+	int getCenterY() const override;
+	Vec getCenterPos() const override;
+
 protected:
 	int speed;
-	Direction curdir = DOWN;
-	Direction nextdir = DOWN;
+	Direction curdir = LEFT;
+	Direction nextdir = LEFT;
 	bool canPassGate = false;
 };
 

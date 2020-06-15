@@ -10,6 +10,10 @@ public:
 	Idx(int i = 0, int j = 0): i(i), j(j){};
 	Idx(const Idx &v): i(v.i), j(v.j){};
 	Idx(Direction d);
+
+	Idx operator+(const Idx &v);
+	bool operator==(const Idx &v);
+	bool operator!=(const Idx &v);
 };
 
 #endif // IDX_H

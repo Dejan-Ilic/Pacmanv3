@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 
 #include "level.h"
+#include "tile.h"
 
 class LevelEditor: public QGraphicsView{
 	Q_OBJECT
@@ -17,6 +18,10 @@ private:
 	QGraphicsScene *scene;
 	Level *level;
 	QString levelname;
+	Type drawmode = empty;
+
+	void saveLevel();
+	int getSelectorPos();
 
 	void keyPressEvent(QKeyEvent *event) override;
 	void mousePressEvent(QMouseEvent *event) override;

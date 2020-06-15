@@ -5,6 +5,7 @@
 #include <Qt>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QMessageBox>
 
 LevelEditor::LevelEditor(QString levelname, QWidget *parent){
 	//init screen
@@ -21,6 +22,35 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent){
 	//init level
 	level = new Level(levelname, DRAWMODE_EDITOR, scene);
 
+	//show modes
+	const int Nlabels = 10;
+	QString labels[Nlabels] = {"(E)empty", "(W)all", "ghost_(G)ate", "ghost_(F)loor", "(S)pawn",
+							   "teleport(A)", "teleport(B)", "(F)ruit", "(C)oin", "(P)ill"};
+
+
+
+
+
+}
+
+int LevelEditor::getSelectorPos(){
+	switch(this->drawmode){
+
+	}
+}
+
+void LevelEditor::saveLevel(){
+	bool leveliscorrect = true;
+	QString reason = "something went wrong, you should not see this text";
+
+	//check the level for correctness, if errors are found then report with dialogbox
+
+
+	if(leveliscorrect){
+		on_MainMenuButton_clicked();
+	}else{
+		QMessageBox::warning(this, tr("MAP EDITOR ERROR"), reason);
+	}
 }
 
 void LevelEditor::keyPressEvent(QKeyEvent *event){
@@ -28,8 +58,7 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 
 	switch(key){
 	case Qt::Key_K:
-		qDebug() << "k";
-		on_MainMenuButton_clicked();
+		saveLevel();
 		break;
 	}
 

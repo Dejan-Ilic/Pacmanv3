@@ -78,4 +78,15 @@ void Tile::setPos_ij(Idx v){
 	setPos_ij(v.i, v.j);
 }
 
+int Tile::getCenterX() const {
+	return x() + TILE_WIDTH/2;
+}
+int Tile::getCenterY() const{
+	return y() + TILE_HEIGHT/2;
+}
+
+Vec Tile::getCenterPos() const{
+	return Vec(getCenterX(), getCenterY());
+}
+
 

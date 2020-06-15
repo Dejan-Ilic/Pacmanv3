@@ -67,24 +67,32 @@ Tile& Level::getTile(int i, int j){
 }
 
 
-enum Type Level::getType(int i, int j){
-	Tile t = getTile(i,j);
+enum Type Level::getType(int i, int j) const{
+	Tile t = tiles[i*width + j]; //cannot use getTile
 	return t.getType();
+}
+
+enum Type Level::getType(const Idx &v) const{
+	return getType(v.i, v.j);
 }
 
 void Level::setType(int i, int j, enum Type t){
 	getTile(i,j).setType(t);
 }
 
-Idx Level::getSpawn(){
+bool Level::isLoadedCorrectly() const{
+	return correctly_loaded;
+}
+
+Idx Level::getSpawn() const{
 	return spawnlocation;
 }
 
-int Level::getWidth(){
+int Level::getWidth() const{
 	return width;
 }
 
-int Level::getHeight(){
+int Level::getHeight() const{
 	return height;
 }
 

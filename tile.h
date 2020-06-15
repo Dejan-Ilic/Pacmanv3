@@ -39,6 +39,10 @@ public:
 	void setPos_ij(int i, int j) override;
 	void setPos_ij(Idx v) override;
 
+	int getCenterX() const override;
+	int getCenterY() const override;
+	Vec getCenterPos() const override;
+
 private:
 	enum Type type;
 

@@ -14,12 +14,13 @@ public:
 	Level(QString levelname, enum DrawMode drawmode, QGraphicsScene *scene);
 	~Level();
 
-	enum Type getType(int i, int j);
+	enum Type getType(int i, int j) const;
+	enum Type getType(const Idx &v) const;
 	void setType(int i, int j, enum Type t);
-	bool isLoadedCorrectly(){return correctly_loaded;}
-	Idx getSpawn();
-	int getWidth();
-	int getHeight();
+	bool isLoadedCorrectly() const;
+	Idx getSpawn() const;
+	int getWidth() const;
+	int getHeight() const;
 
 
 private:
