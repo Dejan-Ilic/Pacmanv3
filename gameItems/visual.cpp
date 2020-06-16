@@ -24,12 +24,25 @@ Vec Visual::getCenteredScreenPos(Idx v){
 	return getCenteredScreenPos(v.i, v.j);
 }
 
-
-
-
-Idx Visual::getIdx(){
-	int i = floor((y())/static_cast<double>(TILE_HEIGHT) + 0.5);
-	int j = floor((x())/static_cast<double>(TILE_WIDTH) + 0.5);
+Idx Visual::vecToIdx(int x, int y){
+	int i = floor((y)/static_cast<double>(TILE_HEIGHT) + 0.5);
+	int j = floor((x)/static_cast<double>(TILE_WIDTH) + 0.5);
 
 	return Idx(i,j);
+}
+
+Idx Visual::vecToIdx(Vec v){
+	return vecToIdx(v.x, v.y);
+}
+
+Idx Visual::centeredVecToIdx(Vec v){
+	return vecToIdx(v.x - TILE_WIDTH/2, v.y - TILE_HEIGHT/2);
+}
+
+Idx Visual::centeredVecToIdx(int x, int y){
+	return centeredVecToIdx(Vec(x,y));
+}
+
+Idx Visual::getIdx(){	
+	return vecToIdx(x(), y());
 }

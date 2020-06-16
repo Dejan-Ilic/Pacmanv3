@@ -240,16 +240,37 @@ int Level::getHeight() const{
 	return height;
 }
 
-bool Level::eatCoin(int i, int j){
-	return false; //todo
+Type Level::eat(int x, int y){
+	return eat(Vec(x,y));
 }
 
 
-bool Level::eatCoin(Idx v){
-	return eatCoin(v.i, v.j);
+Type Level::eat(Vec v){
+	Idx p = Visual::centeredVecToIdx(v);
+	Vec pCenter = Visual::getCenteredScreenPos(p);
+
+	//v: pacman pos, p: square he is in, pCenter: center pos of that square
+
+	Type type = getType(p);
+	bool edible = (type == coin || type == fruit || type == pill);
+
+	if(edible && v.l1dist(pCenter) < EAT_DIST){
+		setType(p.i, p.j, empty);
+
+		if(type == coin){
+			numcoins = numcoins - 1;
+		}
+	}
+
+	return type;
+
 }
 
-Idx Level::getGhostSpawn(int i){
+int Level::getRemainingCoins() const{
+	return numcoins;
+}
+
+Idx Level::getGhostSpawn(int i) const{
 	if(i < 0 || i >= 4){
 		i = 0;
 	}

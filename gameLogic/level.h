@@ -22,11 +22,12 @@ public:
 	Idx getSpawn() const;
 	int getWidth() const;
 	int getHeight() const;
+	int getRemainingCoins() const;
 
-	Idx getGhostSpawn(int i);
+	Idx getGhostSpawn(int i) const;
 
-	bool eatCoin(int i, int j);
-	bool eatCoin(Idx v);
+	enum Type eat(Vec v);
+	enum Type eat(int x, int y);
 
 	QString saveLevel();
 

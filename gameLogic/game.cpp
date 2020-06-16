@@ -76,14 +76,25 @@ void Game::render(){
 	*/
 
 	//eat the coins and other items
+	Type item = level->eat(pacman->getCenterPos());
+	switch(item){
+	case coin: break;
+	case pill: break;
+	case fruit: break;
+	}
+
+	//check for gameover (win)
+	if(level->getRemainingCoins() == 0){
+		qDebug() << "You win!";
+	}
+
+	//check for gameover (colligsion, loss)
+	bool collision = false;
+	if(collision){
+		qDebug() << "You died!";
+	}
 
 
-
-	//check for gameover
-
-
-
-	//check for collisions
 
 
 }

@@ -20,6 +20,10 @@ public:
 	static Vec getCenteredScreenPos(int i, int j);
 	static Vec getCenteredScreenPos(Idx v);
 
+	static Idx vecToIdx(int x, int y);
+	static Idx vecToIdx(Vec v);
+	static Idx centeredVecToIdx(int x, int y);
+	static Idx centeredVecToIdx(Vec v);
 	Idx getIdx();
 
 	//essentials, have to be overridded

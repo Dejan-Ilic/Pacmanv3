@@ -15,8 +15,10 @@
 #define LEVEL_ORDER "levelorder.ord"
 #define LEVEL_SUFFIX ".lvl"
 
+//gameplay constants
 #define NORMAL_SPEED 2
 #define PILL_SPEED 1
 #define EYE_SPEED 4
+#define EAT_DIST 8
 
 #endif // CONSTANTS_H
