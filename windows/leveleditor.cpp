@@ -1,5 +1,5 @@
 #include "leveleditor.h"
-#include "constants.h"
+#include "util/constants.h"
 
 #include <math.h>
 

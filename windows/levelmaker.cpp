@@ -1,7 +1,7 @@
 #include "leveleditor.h"
 #include "levelmaker.h"
 #include "ui_levelmaker.h"
-#include "constants.h"
+#include "util/constants.h"
 
 #include <QDebug>
 #include <QDir>

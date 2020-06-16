@@ -1,5 +1,5 @@
 #include "game.h"
-#include "constants.h"
+#include "util/constants.h"
 
 #include <QBrush>
 #include <Qt>
@@ -52,6 +52,15 @@ Game::Game(QWidget *parent){
 	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(render()));
 	timer->start(FRAMETIME);
 
+}
+
+Game::~Game(){
+	delete level;
+	delete pacman;
+	for(int i=0; i<4; ++i){
+		delete ghosts[i];
+		//delete controller[i];
+	}
 }
 
 void Game::render(){

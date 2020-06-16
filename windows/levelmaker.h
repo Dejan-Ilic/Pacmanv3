@@ -1,7 +1,7 @@
 #ifndef LEVELMAKER_H
 #define LEVELMAKER_H
 
-#include "constants.h"
+#include "util/constants.h"
 
 #include <QWidget>
 

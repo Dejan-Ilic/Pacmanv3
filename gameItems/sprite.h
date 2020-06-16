@@ -3,9 +3,9 @@
 
 #include "visual.h"
 #include "tile.h"
-#include "direction.h"
-#include "constants.h"
-#include "level.h"
+#include "util/direction.h"
+#include "util/constants.h"
+#include "gameLogic/level.h"
 
 
 class Sprite : public Visual{

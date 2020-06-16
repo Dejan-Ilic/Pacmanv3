@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "levelmaker.h"
-#include "game.h"
+#include "gameLogic/game.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)

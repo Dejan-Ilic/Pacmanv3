@@ -16,36 +16,38 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    direction.cpp \
-    game.cpp \
-    ghost.cpp \
-    idx.cpp \
-    level.cpp \
-    leveleditor.cpp \
-    levelmaker.cpp \
+    gameItems/ghost.cpp \
+    gameItems/pacman.cpp \
+    gameItems/sprite.cpp \
+    gameItems/tile.cpp \
+    gameItems/visual.cpp \
+    gameLogic/game.cpp \
+    gameLogic/ghostcontroller.cpp \
+    gameLogic/level.cpp \
     main.cpp \
-    mainwindow.cpp \
-    pacman.cpp \
-    sprite.cpp \
-    tile.cpp \
-    vec.cpp \
-    visual.cpp
+    util/direction.cpp \
+    util/idx.cpp \
+    util/vec.cpp \
+    windows/leveleditor.cpp \
+    windows/levelmaker.cpp \
+    windows/mainwindow.cpp
 
 HEADERS += \
-    constants.h \
-    direction.h \
-    game.h \
-    ghost.h \
-    idx.h \
-    level.h \
-    leveleditor.h \
-    levelmaker.h \
-    mainwindow.h \
-    pacman.h \
-    sprite.h \
-    tile.h \
-    vec.h \
-    visual.h
+    gameItems/ghost.h \
+    gameItems/pacman.h \
+    gameItems/sprite.h \
+    gameItems/tile.h \
+    gameItems/visual.h \
+    gameLogic/game.h \
+    gameLogic/ghostcontroller.h \
+    gameLogic/level.h \
+    util/constants.h \
+    util/direction.h \
+    util/idx.h \
+    util/vec.h \
+    windows/leveleditor.h \
+    windows/levelmaker.h \
+    windows/mainwindow.h
 
 FORMS += \
     levelmaker.ui \

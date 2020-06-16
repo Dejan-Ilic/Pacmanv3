@@ -1,7 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
-#include "tile.h"
-#include "idx.h"
+#include "gameItems/tile.h"
+#include "util/idx.h"
 #include <QGraphicsScene>
 
 enum DrawMode{

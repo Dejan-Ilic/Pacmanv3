@@ -4,8 +4,8 @@
 #include <QGraphicsRectItem>
 #include <QObject>
 
-#include "vec.h"
-#include "idx.h"
+#include "util/vec.h"
+#include "util/idx.h"
 #include "visual.h"
 
 

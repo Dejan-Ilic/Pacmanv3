@@ -8,9 +8,9 @@
 #include <QBrush>
 #include <Qt>
 
-#include "level.h"
-#include "tile.h"
-#include "vec.h"
+#include "gameLogic/level.h"
+#include "gameItems/tile.h"
+#include "util/vec.h"
 
 
 class LevelEditor: public QGraphicsView{
