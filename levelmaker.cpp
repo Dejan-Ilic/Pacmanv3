@@ -188,9 +188,9 @@ void LevelMaker::on_RenameButton_clicked(){
 	}
 
 	//rename file
-	QFile file(defaulttext + ".lvl");
+	QFile file(defaulttext + LEVEL_SUFFIX);
 	file.open(QIODevice::WriteOnly | QIODevice::Text);
-	file.rename(newname + ".lvl");
+	file.rename(newname + LEVEL_SUFFIX);
 	file.close();
 
 	saveLevelOrder();
@@ -296,7 +296,7 @@ void LevelMaker::on_DeleteButton_clicked(){
 	delete selecteditems[0];
 
 	//delete file
-	QFile file(text + ".lvl");
+	QFile file(text + LEVEL_SUFFIX);
 	file.remove();
 	file.close();
 
@@ -320,8 +320,8 @@ void LevelMaker::on_CopyButton_clicked(){
 	ui->availableLevels->addItem(newname);
 
 	//copy file
-	QFile file(defaulttext + ".lvl");
-	file.copy(newname + ".lvl");
+	QFile file(defaulttext + LEVEL_SUFFIX);
+	file.copy(newname + LEVEL_SUFFIX);
 	file.close();
 
 	saveLevelOrder();

@@ -18,12 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     direction.cpp \
     game.cpp \
+    ghost.cpp \
     idx.cpp \
     level.cpp \
     leveleditor.cpp \
     levelmaker.cpp \
     main.cpp \
     mainwindow.cpp \
+    pacman.cpp \
     sprite.cpp \
     tile.cpp \
     vec.cpp \
@@ -33,11 +35,13 @@ HEADERS += \
     constants.h \
     direction.h \
     game.h \
+    ghost.h \
     idx.h \
     level.h \
     leveleditor.h \
     levelmaker.h \
     mainwindow.h \
+    pacman.h \
     sprite.h \
     tile.h \
     vec.h \

@@ -10,7 +10,12 @@
 #include <string>
 using namespace std;
 
-Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene): levelname(levelname), width(0), height(0), drawmode(dm), scene(scene){
+Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene):
+	levelname(levelname),
+	width(0), height(0),
+	drawmode(dm),
+	scene(scene)
+{
 	//read the level file
 	loadLevel();
 
@@ -29,7 +34,7 @@ Tile& Level::getTile(int i, int j){
 
 bool Level::loadLevel(){
 	//check if it exists
-	QFile file(levelname + ".lvl");
+	QFile file(levelname + LEVEL_SUFFIX);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){//nothing found, so make standard level
 		width = LEVEL_WIDTH;
 		height = LEVEL_HEIGHT;
@@ -88,11 +93,18 @@ bool Level::loadLevel(){
 	}
 
 	//now find all useful squares:
-	for(int i=0; i<height; ++i){   //todo
+	int nspawns = 0;
+
+	for(int i=0; i<height; ++i){
 		for(int j=0; j<width; ++j){
-			Type t = getType(i,j);
-			if(t == spawn){
+			Type type = getType(i,j);
+			if(type == spawn){
 				spawnlocation = Idx(i,j);
+			}else if(type == ghost_floor && nspawns < 4){
+				ghostspawns[nspawns] = Idx(i,j);
+				++nspawns;
+			}else if(type == coin){
+				++numcoins;
 			}
 		}
 	}
@@ -176,7 +188,7 @@ QString Level::saveLevel(){
 	}
 	//now save the file
 	ofstream myfile;
-	myfile.open ( (levelname + ".lvl").toStdString() );
+	myfile.open ( (levelname + LEVEL_SUFFIX).toStdString() );
 	for(int i=0; i<LEVEL_HEIGHT; ++i){
 		for(int j=0; j<LEVEL_WIDTH; ++j){
 			myfile << Tile::encode(this->getType(i,j));
@@ -203,7 +215,7 @@ void Level::setType(int i, int j, enum Type t){
 }
 
 void Level::initTile(int i, int j, enum Type t){
-	getTile(i,j).setType(t);
+	setType(i, j, t);
 	getTile(i,j).setPos_ij(i,j);
 	scene->addItem(&getTile(i,j));
 }
@@ -228,5 +240,20 @@ int Level::getHeight() const{
 	return height;
 }
 
+bool Level::eatCoin(int i, int j){
+	return false; //todo
+}
+
+
+bool Level::eatCoin(Idx v){
+	return eatCoin(v.i, v.j);
+}
+
+Idx Level::getGhostSpawn(int i){
+	if(i < 0 || i >= 4){
+		i = 0;
+	}
+	return ghostspawns[i];
+}
 
 

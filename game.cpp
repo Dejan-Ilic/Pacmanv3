@@ -30,10 +30,19 @@ Game::Game(QWidget *parent){
 	}
 
 	//init ghosts
+	QString ghostcolors[4] = {"red", "green", "blue", "yellow"};
+	for(int i=0; i<4; ++i){
+		ghosts[i] = new Ghost(":/images/ghost_"+ghostcolors[i], NORMAL_SPEED, level->getGhostSpawn(i));
+		scene->addItem(ghosts[i]);
+	}
+
+	//init the controllers
+
+
 
 
 	//init player
-	pacman = new Sprite(":/images/pacman1", 2);
+	pacman = new Pacman(":/images/pacman1", NORMAL_SPEED);
 	pacman->setPos_ij(level->getSpawn());
 	scene->addItem(pacman);
 
@@ -46,7 +55,28 @@ Game::Game(QWidget *parent){
 }
 
 void Game::render(){
+	//move monsieur pacman
 	pacman->move(level);
+
+	//move les phantomes
+	/*
+	for(int i=0; i<4; ++i){
+		ghostcontrollers[i].calcDirections();
+		ghosts[i]->move(level);
+	}
+	*/
+
+	//eat the coins and other items
+
+
+
+	//check for gameover
+
+
+
+	//check for collisions
+
+
 }
 
 void Game::keyPressEvent(QKeyEvent *event){

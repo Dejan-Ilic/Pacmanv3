@@ -13,5 +13,10 @@
 #define FRAMETIME 1000/60.0
 
 #define LEVEL_ORDER "levelorder.ord"
+#define LEVEL_SUFFIX ".lvl"
+
+#define NORMAL_SPEED 2
+#define PILL_SPEED 1
+#define EYE_SPEED 4
 
 #endif // CONSTANTS_H
