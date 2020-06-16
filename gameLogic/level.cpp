@@ -260,6 +260,8 @@ Type Level::eat(Vec v){
 		if(type == coin){
 			numcoins = numcoins - 1;
 		}
+	}else{
+		type = empty;
 	}
 
 	return type;

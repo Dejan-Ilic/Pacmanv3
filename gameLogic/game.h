@@ -42,6 +42,14 @@ private:
 	int curlevel = 0;
 	QStringList levellist;
 
+	QGraphicsSimpleTextItem scoreText;
+	QGraphicsSimpleTextItem livesText;
+	QGraphicsSimpleTextItem levelsplayedText;
+
+	void addScore(int amount);
+	void loseLives(int amount);
+	void increaseLevel(int amount);
+
 	//event
 	void keyPressEvent(QKeyEvent *event) override;
 

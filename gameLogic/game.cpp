@@ -26,7 +26,6 @@ Game::Game(QWidget *parent){
 
 	while(!in.atEnd()){
 		QString line = in.readLine();
-		qDebug() << line;
 		levellist.append(line);
 	}
 	file.close();
@@ -71,6 +70,24 @@ Game::Game(QWidget *parent){
 	scene->addItem(&msgText);
 	msgText.setVisible(false);
 
+	//init info texts
+	scoreText.setBrush(QBrush(Qt::white));
+	scoreText.setFont(QFont("Times", 20, QFont::Bold));
+	scoreText.setPos(100, 550);
+	scene->addItem(&scoreText);
+	addScore(0);
+
+	livesText.setBrush(QBrush(Qt::white));
+	livesText.setFont(QFont("Times", 20, QFont::Bold));
+	livesText.setPos(300, 550);
+	scene->addItem(&livesText);
+	loseLives(0);
+
+	levelsplayedText.setBrush(QBrush(Qt::white));
+	levelsplayedText.setFont(QFont("Times", 20, QFont::Bold));
+	levelsplayedText.setPos(500, 550);
+	scene->addItem(&levelsplayedText);
+	increaseLevel(0);
 }
 
 Game::~Game(){
@@ -95,13 +112,13 @@ void Game::render(){
 	Type item = level->eat(pacman->getCenterPos());
 	switch(item){
 	case coin:
-		score = score + 1;
+		addScore(1);
 		break;
 	case pill:
 		//todo: set all ghosts in pill mode
 		break;
 	case fruit:
-		score = score + FRUIT_SCORE;
+		addScore(FRUIT_SCORE);
 		fruittimer.start(FRUITTIME);
 		break;
 	}
@@ -127,7 +144,7 @@ void Game::render(){
 		pacman->setAlive(false);
 		stopTimers();
 		if(lives > 1){
-			lives = lives - 1;
+			loseLives(1);
 			showMessage("Press (N) to respawn.");
 		}else{
 			showMessage("You died! Press (K) to quit.");
@@ -202,9 +219,10 @@ void Game::keyPressEvent(QKeyEvent *event){
 			clearLevel();
 			clearSprites();
 
-			curlevel = (curlevel + 1)%levellist.length();
+			increaseLevel(1);
 			loadLevel();
 			spawnSprites();
+			startTimers();
 
 		}else if(!pacman->isAlive()){
 			//respawn
@@ -215,6 +233,21 @@ void Game::keyPressEvent(QKeyEvent *event){
 		}
 	}
 
+}
+
+void Game::addScore(int amount){
+	score = score + amount;
+	scoreText.setText(QString("Score: %1").arg(score));
+}
+void Game::loseLives(int amount){
+	lives = lives - amount;
+	livesText.setText(QString("Lives: %1").arg(lives));
+
+}
+void Game::increaseLevel(int amount){
+	curlevel = (curlevel + amount)%levellist.length();
+	levelsplayed = levelsplayed + amount;
+	levelsplayedText.setText(QString("Levels played: %1").arg(levelsplayed));
 }
 
 void Game::loadLevel(){
