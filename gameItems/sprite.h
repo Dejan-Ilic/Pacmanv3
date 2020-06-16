@@ -17,6 +17,9 @@ public:
 	void setSpeed(int s);
 	void setCanPassGate(bool b);
 
+	bool isAlive();
+	void setAlive(bool a);
+
 	void setPos_ij(int i, int j) override;
 	void setPos_ij(Idx v) override;
 
@@ -29,6 +32,7 @@ protected:
 	Direction curdir = LEFT;
 	Direction nextdir = LEFT;
 	bool canPassGate = false;
+	bool alive = true;
 };
 
 #endif // SPRITE_H

@@ -57,6 +57,14 @@ void Sprite::move(const Level *level){
 
 }
 
+bool Sprite::isAlive(){
+	return alive;
+}
+
+void Sprite::setAlive(bool a){
+	alive = a;
+}
+
 void Sprite::setNextDir(Direction d){
 	nextdir = d;
 }

@@ -9,11 +9,6 @@ Ghost::Ghost(QString appearance, int speed, Idx spawn):
 
 }
 
-
-bool Ghost::isAlive(){
-	return alive;
-}
-
 bool Ghost::isScared(){
 	return scared;
 }

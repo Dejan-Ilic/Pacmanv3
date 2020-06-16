@@ -33,9 +33,24 @@ private:
 	int score = 0;
 	int lives = 3;
 
+	int levelsplayed = 0;
+	int curlevel = 0;
+	QStringList levellist;
+
 	void keyPressEvent(QKeyEvent *event) override;
 	void stopTimers();
+	void clearSprites();
+	void spawnSprites();
 
+	//messages
+	void showMessage(QString msg);
+	void clearMessage();
+	QGraphicsRectItem msgRect;
+	QGraphicsSimpleTextItem msgText;
+
+	void startTimers();
+	void loadLevel(QString name);
+	void clearLevel();
 signals:
 	void MainMenuButton_clicked();
 
