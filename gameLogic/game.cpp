@@ -33,6 +33,11 @@ Game::Game(QWidget *parent){
 
 	if(levellist.length() == 0){
 		loadingerror = true;
+		pacman = nullptr;
+		level = nullptr;
+		for(int i=0; i<4; ++i)
+			ghosts[i] = nullptr;
+
 		QMessageBox::warning(this, "LEVEL LOADING ERROR", "No existing levels. Press (K) to quit and go make some levels.");
 		return;
 	}
@@ -80,7 +85,7 @@ void Game::render(){
 
 	//move les phantomes
 	/*
-	for(int i=0; i<4; ++i){
+	for(int i=0; i<4; ++i){ //todo
 		ghostcontrollers[i].calcDirections();
 		ghosts[i]->move(level);
 	}
@@ -107,8 +112,17 @@ void Game::render(){
 		showMessage("Level complete! Press (N) to continue.");
 	}
 
-	//check for gameover (colligsion, loss)
+	//check for gameover (collision, loss)
 	bool collision = false;
+
+	Vec pacpos = pacman->getCenterPos();
+
+	for(int i=0; i<4; ++i){
+		if(pacpos.l1dist(ghosts[i]->getCenterPos()) <= EAT_DIST){
+			collision = true;
+		}
+	}
+
 	if(collision){
 		pacman->setAlive(false);
 		stopTimers();
@@ -190,6 +204,7 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 			curlevel = (curlevel + 1)%levellist.length();
 			loadLevel();
+			spawnSprites();
 
 		}else if(!pacman->isAlive()){
 			//respawn
@@ -214,18 +229,27 @@ void Game::loadLevel(){
 }
 
 void Game::clearLevel(){
-	delete level;
+	if(level != nullptr){
+		delete level;
+		level = nullptr;
+	}
 }
 
 void Game::clearSprites(){
 	//clear the ghosts
-	for(int i=0; i<4; ++i)
-		delete ghosts[i];
-
+	for(int i=0; i<4; ++i){
+		if(ghosts[i] != nullptr){
+			delete ghosts[i];
+			ghosts[i] = nullptr;
+		}
+	}
 	//clear the controllers
 
 	//clear the player
-	delete pacman;
+	if(pacman != nullptr){
+		delete pacman;
+		pacman = nullptr;
+	}
 }
 
 void Game::spawnSprites(){
