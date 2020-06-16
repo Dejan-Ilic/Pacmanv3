@@ -21,6 +21,10 @@ public:
 	~Game();
 
 private:
+	//technical
+	bool loadingerror = false;
+
+	//entities
 	QGraphicsScene *scene;
 	QTimer rendertimer;
 	QTimer fruittimer;
@@ -30,6 +34,7 @@ private:
 	GhostController *controller[4];
 	Level *level;
 
+	//leveldata
 	int score = 0;
 	int lives = 3;
 
@@ -37,10 +42,8 @@ private:
 	int curlevel = 0;
 	QStringList levellist;
 
+	//event
 	void keyPressEvent(QKeyEvent *event) override;
-	void stopTimers();
-	void clearSprites();
-	void spawnSprites();
 
 	//messages
 	void showMessage(QString msg);
@@ -48,8 +51,12 @@ private:
 	QGraphicsRectItem msgRect;
 	QGraphicsSimpleTextItem msgText;
 
+	//cleanup and startup
 	void startTimers();
-	void loadLevel(QString name);
+	void stopTimers();
+	void clearSprites();
+	void spawnSprites();
+	void loadLevel();
 	void clearLevel();
 signals:
 	void MainMenuButton_clicked();

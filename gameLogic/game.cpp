@@ -17,15 +17,31 @@ Game::Game(QWidget *parent){
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setFixedSize(800, 600);
-
 	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 
+	//read level orders
+	QFile file(LEVEL_ORDER);
+	file.open(QIODevice::ReadOnly | QIODevice::Text);
+	QTextStream in(&file);
+
+	while(!in.atEnd()){
+		QString line = in.readLine();
+		qDebug() << line;
+		levellist.append(line);
+	}
+	file.close();
+
+	if(levellist.length() == 0){
+		loadingerror = true;
+		QMessageBox::warning(this, "LEVEL LOADING ERROR", "No existing levels. Press (K) to quit and go make some levels.");
+		return;
+	}
+
 	//init level
-	loadLevel("Level1");
+	loadLevel();
 
 	//init sprites
 	spawnSprites();
-
 
 	//init rendertimer
 	QObject::connect(&rendertimer, SIGNAL(timeout()), this, SLOT(render()));
@@ -37,7 +53,6 @@ Game::Game(QWidget *parent){
 	startTimers();
 
 	//init message system
-
 	msgRect.setRect(200, 200, 500, 100);
 	msgRect.setBrush(QBrush(Qt::yellow));
 	msgRect.setZValue(1000);
@@ -50,8 +65,6 @@ Game::Game(QWidget *parent){
 	msgText.setZValue(msgRect.zValue() + 1);
 	scene->addItem(&msgText);
 	msgText.setVisible(false);
-
-	setFocus();
 
 }
 
@@ -147,6 +160,10 @@ void Game::spawnFruit(){
 void Game::keyPressEvent(QKeyEvent *event){
 	const int key = event->key();
 
+	if(loadingerror){
+		on_MainMenuButton_clicked();
+	}
+
 	switch(key){
 	case Qt::Key_Left:
 		pacman->setNextDir(LEFT);
@@ -171,7 +188,8 @@ void Game::keyPressEvent(QKeyEvent *event){
 			clearLevel();
 			clearSprites();
 
-			//todo: load next level here
+			curlevel = (curlevel + 1)%levellist.length();
+			loadLevel();
 
 		}else if(!pacman->isAlive()){
 			//respawn
@@ -184,11 +202,13 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 }
 
-void Game::loadLevel(QString name){
+void Game::loadLevel(){
+	QString name = levellist.at(curlevel);
+
 	level = new Level(name, DRAWMODE_GAME, scene);
 	if(!level->isCorrectlyLoaded()){
 		QMessageBox::warning(this, "LEVEL LOADING ERROR",
-	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press \"K\" to quit.");
+	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press (K) to quit.");
 		return;
 	}
 }
