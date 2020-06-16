@@ -21,4 +21,7 @@
 #define EYE_SPEED 4
 #define EAT_DIST 8
 
+#define FRUITTIME 30000
+#define FRUIT_SCORE 100
+
 #endif // CONSTANTS_H

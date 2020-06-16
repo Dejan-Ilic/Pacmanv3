@@ -6,6 +6,14 @@ GhostController::GhostController(Level *level, Ghost *ghost, Pacman *pacman):
 
 }
 
+void GhostController::findTarget(){
+
+}
+
+void GhostController::findScaredTarget(){
+
+}
+
 void findScaredDirection(){
 
 

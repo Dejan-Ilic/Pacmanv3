@@ -6,8 +6,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMessageBox>
-
-#include <QTimer>
+#include <QRandomGenerator>
 
 Game::Game(QWidget *parent){
 	//init screen
@@ -36,8 +35,7 @@ Game::Game(QWidget *parent){
 		scene->addItem(ghosts[i]);
 	}
 
-	//init the controllers
-
+	//init the controllers, which have their own timers
 
 
 
@@ -47,10 +45,14 @@ Game::Game(QWidget *parent){
 	scene->addItem(pacman);
 
 
-	//init timer
-	QTimer *timer = new QTimer();
-	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(render()));
-	timer->start(FRAMETIME);
+	//init rendertimer
+	QObject::connect(&rendertimer, SIGNAL(timeout()), this, SLOT(render()));
+	rendertimer.start(FRAMETIME);
+
+	//init fruittimer
+	QObject::connect(&fruittimer, SIGNAL(timeout()), this, SLOT(spawnFruit()));
+	fruittimer.setSingleShot(true);
+	fruittimer.start(FRUITTIME);
 
 }
 
@@ -78,9 +80,16 @@ void Game::render(){
 	//eat the coins and other items
 	Type item = level->eat(pacman->getCenterPos());
 	switch(item){
-	case coin: break;
-	case pill: break;
-	case fruit: break;
+	case coin:
+		score = score + 1;
+		break;
+	case pill:
+		//todo: set all ghosts in pill mode
+		break;
+	case fruit:
+		score = score + FRUIT_SCORE;
+		fruittimer.start(FRUITTIME);
+		break;
 	}
 
 	//check for gameover (win)
@@ -97,6 +106,29 @@ void Game::render(){
 
 
 
+}
+
+void Game::spawnFruit(){
+	int H = level->getHeight();
+	int W = level->getWidth();
+
+	QList<Idx> list;
+
+	for(int i=0; i<H; ++i){
+		for(int j=0; j<W; ++j){
+			if(level->getType(i,j) == empty){
+				list.append(Idx(i,j));
+			}
+		}
+	}
+
+	if(list.length() > 0){
+		QRandomGenerator rng;
+		int i = rng.bounded(0, list.length() - 1);
+		Idx v = list.at(i);
+
+		level->setType(v.i, v.j, fruit);
+	}
 }
 
 void Game::keyPressEvent(QKeyEvent *event){
@@ -120,6 +152,11 @@ void Game::keyPressEvent(QKeyEvent *event){
 		break;
 	}
 
+}
+
+void Game::stopTimers(){
+	rendertimer.stop();
+	fruittimer.stop();
 }
 
 void Game::on_MainMenuButton_clicked(){

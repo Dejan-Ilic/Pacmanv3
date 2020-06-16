@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QTimer>
 
 #include "util/vec.h"
 #include "gameItems/pacman.h"
@@ -21,16 +22,19 @@ public:
 
 private:
 	QGraphicsScene *scene;
+	QTimer rendertimer;
+	QTimer fruittimer;
+
 	Pacman *pacman;
 	Ghost *ghosts[4];
 	GhostController *controller[4];
 	Level *level;
 
-	bool ignoreEvents = false;
 	int score = 0;
 	int lives = 3;
 
 	void keyPressEvent(QKeyEvent *event) override;
+	void stopTimers();
 
 signals:
 	void MainMenuButton_clicked();
@@ -39,6 +43,7 @@ signals:
 private slots:
 	void on_MainMenuButton_clicked();
 	void render();
+	void spawnFruit();
 
 
 };
