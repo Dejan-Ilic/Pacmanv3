@@ -21,7 +21,7 @@ void Ghost::setScared(bool newstate){
 	scared = newstate;
 
 	if(scared){
-		curdir = opposite(curdir);
+		nextdir = opposite(curdir);
 		speed = PILL_SPEED;
 
 		//set sprite to scared
@@ -36,6 +36,5 @@ void Ghost::setScared(bool newstate){
 }
 
 void Ghost::toSpawn(){
-	Vec pos = Visual::idxToVec(spawn);
-	setPos(pos.x, pos.y);
+	setPos_ij(spawn);
 }

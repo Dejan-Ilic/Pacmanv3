@@ -3,8 +3,6 @@
 
 #include <stdlib.h>
 
-#include <qDebug>
-
 Sprite::Sprite(QString appearance, int spd): speed(spd){
 	changeAppearance(appearance);
 	setTransformOriginPoint(SPRITE_WIDTH/2, SPRITE_HEIGHT/2);
@@ -27,8 +25,6 @@ void Sprite::move(const Level *level){
 
 	bool passNext =	  ((nexttype != wall)	&&	(nexttype != ghost_gate   || canPassGate));
 	bool passWanted = ((wantedtype != wall) &&	(wantedtype != ghost_gate || canPassGate));
-
-	//qDebug() << cursquare.x << ", " << cursquare.y << " | " << x << ", " << y;
 
 	if(abs(curidx.i) == abs(nextidx.i) && abs(curidx.j) == abs(nextidx.j) && curidx.i != nextidx.i && curidx.j != nextidx.j){
 		//zelfde richting, tegenovergestelde zin

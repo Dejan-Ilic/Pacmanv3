@@ -41,9 +41,12 @@ void GhostController::navigate(){
 	Vec squarecenter = Visual::idxToCenteredVec(ghostidx);
 	Vec ghostcenter = ghost->getCenterPos();
 
-	if( ghostcenter.l1dist(squarecenter) <= ghost->getSpeed()){
+	if(ghostidx != lastturn && ghostcenter.l1dist(squarecenter) <= ghost->getSpeed()){
+		lastturn = ghostidx;
+
 		//let me exit the ghost waiting room!
-		if(level->getType(ghostidx) == ghost_floor){
+		Type underme = level->getType(ghostidx);
+		if(underme == ghost_floor || underme == ghost_gate){
 			ghost->setCanPassGate(true);
 		}else{
 			ghost->setCanPassGate(false);

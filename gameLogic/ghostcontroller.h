@@ -25,6 +25,7 @@ protected:
 	Pacman *pacman;
 
 	Vec target;
+	Idx lastturn;
 
 	virtual void findTarget() = 0;
 

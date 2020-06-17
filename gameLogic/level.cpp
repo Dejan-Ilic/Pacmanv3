@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QString>
 #include <QByteArray>
-#include <QDebug>
+#include <QTextStream>
 
 #include <fstream>
 #include <string>
@@ -74,7 +74,6 @@ bool Level::loadLevel(){
 			}
 			++height;
 		}
-		qDebug() << "file has consistent dimensions: H=" << height << ", W=" << width;
 
 		//now load into tiles array
 		tiles = new Tile[width * height];

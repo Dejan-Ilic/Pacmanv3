@@ -3,9 +3,9 @@
 #include "ui_levelmaker.h"
 #include "util/constants.h"
 
-#include <QDebug>
 #include <QDir>
 #include <QInputDialog>
+#include <QTextStream>
 #include <fstream>
 #include <string>
 using namespace std;

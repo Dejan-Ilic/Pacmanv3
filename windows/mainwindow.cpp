@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->setupUi(this);
 	subscreen = nullptr;
 	setWindowTitle("PACMAN - DEJAN ILIC");
-	setFixedSize(800, 600);
+	setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 MainWindow::~MainWindow(){

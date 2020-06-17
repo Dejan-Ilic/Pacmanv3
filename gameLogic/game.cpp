@@ -15,12 +15,12 @@
 Game::Game(QWidget *parent){
 	//init screen
 	scene = new QGraphicsScene();
-	scene->setSceneRect(0,0,800,600);
+	scene->setSceneRect(0,0,SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	setScene(scene);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setFixedSize(800, 600);
+	setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 
 	//read level orders
@@ -123,9 +123,11 @@ void Game::render(){
 		addScore(1);
 		break;
 	case pill:
-		//set all ghosts in pill mode
+		//set all active ghosts in pill mode
 		for(int i=0; i<4; ++i){
-			ghosts[i]->setScared(true);
+			if(controller[i]->isActive()){
+				ghosts[i]->setScared(true);
+			}
 		}
 		break;
 	case fruit:
@@ -159,8 +161,8 @@ void Game::render(){
 	if(collision){
 		pacman->setAlive(false);
 		stopTimers();
-		if(lives > 1){
-			loseLives(1);
+		loseLives(1);
+		if(lives > 0){
 			showMessage("Press (N) to respawn.");
 		}else{
 			showMessage("You died! Press (K) to quit.");
@@ -197,7 +199,7 @@ void Game::spawnFruit(){
 	if(list.length() > 0){
 		QRandomGenerator rng = QRandomGenerator::securelySeeded();
 
-		int i = rng.bounded(0, list.length() - 1);
+		int i = rng.bounded(0, list.length());
 		Idx v = list.at(i);
 
 		level->setType(v.i, v.j, fruit);
@@ -228,10 +230,10 @@ void Game::keyPressEvent(QKeyEvent *event){
 		on_MainMenuButton_clicked();
 		break;
 	case Qt::Key_N:
-		clearMessage();
 		if(level->getRemainingCoins() == 0){
+			clearMessage();
+
 			//next level
-			qDebug() << "Next level baby";
 			clearLevel();
 			clearSprites();
 
@@ -240,11 +242,13 @@ void Game::keyPressEvent(QKeyEvent *event){
 			spawnSprites();
 			startTimers();
 
-		}else if(!pacman->isAlive()){
+		}else if(!pacman->isAlive() && lives > 0){
+			clearMessage();
+
 			//respawn
 			clearSprites();
 			spawnSprites();
-
+			startTimers();
 		}
 	}
 
@@ -313,6 +317,11 @@ void Game::clearSprites(){
 }
 
 void Game::spawnSprites(){
+	//init player
+	pacman = new Pacman(":/images/pacman1", NORMAL_SPEED);
+	pacman->setPos_ij(level->getSpawn());
+	scene->addItem(pacman);
+
 	//init ghosts
 	QString ghostcolors[4] = {"red", "green", "blue", "yellow"};
 	for(int i=0; i<4; ++i){
@@ -322,20 +331,15 @@ void Game::spawnSprites(){
 
 	//init the controllers, which have their own timers
 	controller[0] = new ControllerAggressive(level, ghosts[0], pacman);
-	controller[1] = new ControllerPredictive(level, ghosts[0], pacman);
-	controller[2] = new ControllerPursuit(level, ghosts[0], pacman);
-	controller[3] = new ControllerRandom(level, ghosts[0], pacman);
-
-	//init player
-	pacman = new Pacman(":/images/pacman1", NORMAL_SPEED);
-	pacman->setPos_ij(level->getSpawn());
-	scene->addItem(pacman);
+	controller[1] = new ControllerPredictive(level, ghosts[1], pacman);
+	controller[2] = new ControllerPursuit(level, ghosts[2], pacman);
+	controller[3] = new ControllerRandom(level, ghosts[3], pacman);
 }
 
 void Game::releaseGhosts(){
 	int totcoins = level->getTotalCoins();
 	int remcoins = level->getRemainingCoins();
-	float frac = remcoins/static_cast<float>(totcoins);
+	float frac = remcoins/(static_cast<float>(totcoins) + 1); //don't divide by zero
 
 	float thresholds[4] = RELEASE_THRESHOLDS;
 

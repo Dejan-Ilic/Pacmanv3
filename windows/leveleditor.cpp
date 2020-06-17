@@ -6,7 +6,6 @@
 #include <QGraphicsRectItem>
 #include <QBrush>
 #include <QKeyEvent>
-#include <QDebug>
 #include <QMessageBox>
 
 const Vec LevelEditor::labelpos[] = {Vec(0, 550), Vec(100, 550), Vec(200, 550), Vec(300, 550), Vec(400, 550),
@@ -22,12 +21,12 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 {
 	//init screen
 	scene = new QGraphicsScene();
-	scene->setSceneRect(0,0,800,600);
+	scene->setSceneRect(0,0,SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	setScene(scene);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setFixedSize(800, 600);
+	setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 

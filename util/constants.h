@@ -27,7 +27,7 @@
 #define FRUIT_SCORE 100
 #define GHOSTEAT_SCORE 300
 
-#define GHOST_SCARED "ghost_scared.png"
+#define GHOST_SCARED ":/images/ghost_scared.png"
 
 #define RELEASE_THRESHOLDS {1.0, 0.7, 0.5, 0.4}
 
