@@ -31,4 +31,7 @@
 
 #define RELEASE_THRESHOLDS {1.0, 0.7, 0.5, 0.4}
 
+#define MAX_PILL_LEVEL 20
+#define PILL_DECREASE_TIME 500
+
 #endif // CONSTANTS_H

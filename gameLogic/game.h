@@ -55,10 +55,11 @@ private:
 	void keyPressEvent(QKeyEvent *event) override;
 
 	//messages
-	void showMessage(QString msg);
-	void clearMessage();
 	QGraphicsRectItem msgRect;
 	QGraphicsSimpleTextItem msgText;
+
+	void showMessage(QString msg);
+	void clearMessage();
 
 	//cleanup and startup
 	void startTimers();
@@ -70,6 +71,17 @@ private:
 
 	//ghosts
 	void respawnGhost(int i);
+
+	//pills
+	QTimer pilltimer;
+	QGraphicsSimpleTextItem pillText;
+	int pillLevel = 0;
+
+	void showPillText();
+	void hidePillText();
+	void updatePillText();
+
+
 signals:
 	void MainMenuButton_clicked();
 
@@ -79,7 +91,7 @@ private slots:
 	void render();
 	void spawnFruit();
 	void releaseGhosts();
-
+	void pillCountDown();
 
 };
 

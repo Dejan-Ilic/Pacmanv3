@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QRandomGenerator>
+#include <QString>
 
 Game::Game(QWidget *parent){
 	//init screen
@@ -82,21 +83,31 @@ Game::Game(QWidget *parent){
 	//init info texts
 	scoreText.setBrush(QBrush(Qt::white));
 	scoreText.setFont(QFont("Times", 20, QFont::Bold));
-	scoreText.setPos(100, 550);
+	scoreText.setPos(100, 560);
 	scene->addItem(&scoreText);
 	addScore(0);
 
 	livesText.setBrush(QBrush(Qt::white));
 	livesText.setFont(QFont("Times", 20, QFont::Bold));
-	livesText.setPos(300, 550);
+	livesText.setPos(300, 560);
 	scene->addItem(&livesText);
 	loseLives(0);
 
 	levelsplayedText.setBrush(QBrush(Qt::white));
 	levelsplayedText.setFont(QFont("Times", 20, QFont::Bold));
-	levelsplayedText.setPos(500, 550);
+	levelsplayedText.setPos(500, 560);
 	scene->addItem(&levelsplayedText);
 	increaseLevel(0);
+
+	//the pill timer
+	QObject::connect(&pilltimer, SIGNAL(timeout()), this, SLOT(pillCountDown()));
+
+	pillText.setBrush(QBrush(Qt::white));
+	pillText.setFont(QFont("Times", 20, QFont::Bold));
+	pillText.setPos(300, 500);
+	pillText.setVisible(false);
+	scene->addItem(&pillText);
+
 }
 
 Game::~Game(){
@@ -129,6 +140,11 @@ void Game::render(){
 				ghosts[i]->setScared(true);
 			}
 		}
+		pillLevel = pillLevel + MAX_PILL_LEVEL;
+		if(!pilltimer.isActive()){
+			pilltimer.start(PILL_DECREASE_TIME);
+		}
+		showPillText();
 		break;
 	case fruit:
 		addScore(FRUIT_SCORE);
@@ -293,6 +309,20 @@ void Game::respawnGhost(int i){
 	controller[i]->setActive(false);
 }
 
+void Game::showPillText(){
+	pillText.setVisible(true);
+	updatePillText();
+
+}
+
+void Game::hidePillText(){
+	pillText.setVisible(false);
+}
+
+void Game::updatePillText(){
+	pillText.setText("<" + QString("|").repeated(pillLevel) );
+}
+
 void Game::clearSprites(){
 	//clear the ghosts
 	for(int i=0; i<4; ++i){
@@ -351,6 +381,21 @@ void Game::releaseGhosts(){
 
 }
 
+void Game::pillCountDown(){
+	pillLevel = pillLevel - 1;
+	if(pillLevel == 0){
+		hidePillText();
+		pilltimer.stop();
+
+		for(int i=0; i<4; ++i){
+			ghosts[i]->setScared(false);
+		}
+
+	}else{
+		updatePillText();
+	}
+}
+
 void Game::startTimers(){
 	rendertimer.start(FRAMETIME);
 	fruittimer.start(FRUITTIME);
@@ -361,6 +406,7 @@ void Game::stopTimers(){
 	rendertimer.stop();
 	fruittimer.stop();
 	releasetimer.stop();
+	pilltimer.stop();
 }
 
 void Game::on_MainMenuButton_clicked(){
