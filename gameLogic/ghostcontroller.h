@@ -10,10 +10,12 @@
 class GhostController{
 public:
 	GhostController(Level *level, Ghost *ghost, Pacman *pacman);
+	virtual ~GhostController();
 
 
 	void plan(); //findTarget, and then navigate
 	void setActive(bool a);
+	bool isActive();
 
 	static QRandomGenerator rng; //only need 1 rng
 

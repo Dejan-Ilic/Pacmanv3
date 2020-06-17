@@ -6,12 +6,13 @@ class Ghost: public Sprite{
 public:
 	Ghost(QString appearance, int speed, Idx spawn);
 	bool isScared();
-	void setScared(int time);
+	void setScared(bool newstate);
+	void toSpawn();
 
-protected:
+private:
 	bool scared = false;
-
 	Idx spawn;
+	QString appearance;
 
 };
 

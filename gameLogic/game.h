@@ -28,6 +28,7 @@ private:
 	QGraphicsScene *scene;
 	QTimer rendertimer;
 	QTimer fruittimer;
+	QTimer releasetimer;
 
 	Pacman *pacman;
 	Ghost *ghosts[4];
@@ -66,6 +67,9 @@ private:
 	void spawnSprites();
 	void loadLevel();
 	void clearLevel();
+
+	//ghosts
+	void respawnGhost(int i);
 signals:
 	void MainMenuButton_clicked();
 
@@ -74,6 +78,7 @@ private slots:
 	void on_MainMenuButton_clicked();
 	void render();
 	void spawnFruit();
+	void releaseGhosts();
 
 
 };

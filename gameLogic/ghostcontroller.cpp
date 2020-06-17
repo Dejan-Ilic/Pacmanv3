@@ -9,6 +9,10 @@ GhostController::GhostController(Level *level, Ghost *ghost, Pacman *pacman):
 
 }
 
+GhostController::~GhostController(){
+
+}
+
 void GhostController::plan(){
 	if(!active){
 		ghost->setNextDir(opposite(ghost->getCurDir())); //some uneasy back and forth waiting
@@ -26,6 +30,10 @@ void GhostController::plan(){
 
 void GhostController::setActive(bool a){
 	active = a;
+}
+
+bool GhostController::isActive(){
+	return active;
 }
 
 void GhostController::navigate(){

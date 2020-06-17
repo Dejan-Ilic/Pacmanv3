@@ -1,3 +1,7 @@
+#include "controlleraggressive.h"
+#include "controllerpredictive.h"
+#include "controllerpursuit.h"
+#include "controllerrandom.h"
 #include "game.h"
 #include "util/constants.h"
 
@@ -34,8 +38,10 @@ Game::Game(QWidget *parent){
 		loadingerror = true;
 		pacman = nullptr;
 		level = nullptr;
-		for(int i=0; i<4; ++i)
+		for(int i=0; i<4; ++i){
 			ghosts[i] = nullptr;
+			controller[i] = nullptr;
+		}
 
 		QMessageBox::warning(this, "LEVEL LOADING ERROR", "No existing levels. Press (K) to quit and go make some levels.");
 		return;
@@ -53,6 +59,9 @@ Game::Game(QWidget *parent){
 	//init fruittimer
 	QObject::connect(&fruittimer, SIGNAL(timeout()), this, SLOT(spawnFruit()));
 	fruittimer.setSingleShot(true);
+
+	//init releasetimer
+	QObject::connect(&releasetimer, SIGNAL(timeout()), this, SLOT(releaseGhosts()));
 
 	startTimers();
 
@@ -101,12 +110,11 @@ void Game::render(){
 	pacman->move(level);
 
 	//move les phantomes
-	/* //todo
 	for(int i=0; i<4; ++i){
-		ghostcontrollers[i].calcDirections();
+		controller[i]->plan();
 		ghosts[i]->move(level);
 	}
-	*/
+
 
 	//eat the coins and other items
 	Type item = level->eat(pacman->getCenterPos());
@@ -115,7 +123,10 @@ void Game::render(){
 		addScore(1);
 		break;
 	case pill:
-		//todo: set all ghosts in pill mode
+		//set all ghosts in pill mode
+		for(int i=0; i<4; ++i){
+			ghosts[i]->setScared(true);
+		}
 		break;
 	case fruit:
 		addScore(FRUIT_SCORE);
@@ -231,7 +242,6 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 		}else if(!pacman->isAlive()){
 			//respawn
-
 			clearSprites();
 			spawnSprites();
 
@@ -274,7 +284,9 @@ void Game::clearLevel(){
 }
 
 void Game::respawnGhost(int i){
-	//todo
+	ghosts[i]->toSpawn();
+	ghosts[i]->setScared(false);
+	controller[i]->setActive(false);
 }
 
 void Game::clearSprites(){
@@ -286,7 +298,12 @@ void Game::clearSprites(){
 		}
 	}
 	//clear the controllers
-		//todo
+	for(int i=0; i<4; ++i){
+		if(controller[i] != nullptr){
+			delete controller[i];
+			controller[i] = nullptr;
+		}
+	}
 
 	//clear the player
 	if(pacman != nullptr){
@@ -304,8 +321,10 @@ void Game::spawnSprites(){
 	}
 
 	//init the controllers, which have their own timers
-		//todo
-
+	controller[0] = new ControllerAggressive(level, ghosts[0], pacman);
+	controller[1] = new ControllerPredictive(level, ghosts[0], pacman);
+	controller[2] = new ControllerPursuit(level, ghosts[0], pacman);
+	controller[3] = new ControllerRandom(level, ghosts[0], pacman);
 
 	//init player
 	pacman = new Pacman(":/images/pacman1", NORMAL_SPEED);
@@ -313,14 +332,31 @@ void Game::spawnSprites(){
 	scene->addItem(pacman);
 }
 
+void Game::releaseGhosts(){
+	int totcoins = level->getTotalCoins();
+	int remcoins = level->getRemainingCoins();
+	float frac = remcoins/static_cast<float>(totcoins);
+
+	float thresholds[4] = RELEASE_THRESHOLDS;
+
+	for(int i=0; i<4; ++i){
+		if(!controller[i]->isActive() && frac <= thresholds[i]){
+			controller[i]->setActive(true);
+		}
+	}
+
+}
+
 void Game::startTimers(){
 	rendertimer.start(FRAMETIME);
 	fruittimer.start(FRUITTIME);
+	releasetimer.start(2000);
 }
 
 void Game::stopTimers(){
 	rendertimer.stop();
 	fruittimer.stop();
+	releasetimer.stop();
 }
 
 void Game::on_MainMenuButton_clicked(){
