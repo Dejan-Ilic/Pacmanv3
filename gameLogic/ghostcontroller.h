@@ -13,6 +13,7 @@ public:
 
 
 	void plan(); //findTarget, and then navigate
+	void setActive(bool a);
 
 	static QRandomGenerator rng; //only need 1 rng
 
@@ -23,10 +24,11 @@ protected:
 
 	Vec target;
 
-	virtual void findTarget() = 0;
+	virtual void findTarget() const = 0;
 
 private:
 	void navigate(); //set ghost.nextTurn depending on the ghost's target and current pos
+	bool active = false;
 };
 
 #endif // GHOSTCONTROLLER_H

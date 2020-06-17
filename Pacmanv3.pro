@@ -21,6 +21,10 @@ SOURCES += \
     gameItems/sprite.cpp \
     gameItems/tile.cpp \
     gameItems/visual.cpp \
+    gameLogic/controlleraggressive.cpp \
+    gameLogic/controllerpredictive.cpp \
+    gameLogic/controllerpursuit.cpp \
+    gameLogic/controllerrandom.cpp \
     gameLogic/game.cpp \
     gameLogic/ghostcontroller.cpp \
     gameLogic/level.cpp \
@@ -38,6 +42,10 @@ HEADERS += \
     gameItems/sprite.h \
     gameItems/tile.h \
     gameItems/visual.h \
+    gameLogic/controlleraggressive.h \
+    gameLogic/controllerpredictive.h \
+    gameLogic/controllerpursuit.h \
+    gameLogic/controllerrandom.h \
     gameLogic/game.h \
     gameLogic/ghostcontroller.h \
     gameLogic/level.h \
