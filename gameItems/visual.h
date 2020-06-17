@@ -15,10 +15,10 @@ public:
 	Visual();
 
 	//handy helper function
-	static Vec getScreenPos(int i, int j);
-	static Vec getScreenPos(Idx v);
-	static Vec getCenteredScreenPos(int i, int j);
-	static Vec getCenteredScreenPos(Idx v);
+	static Vec idxToVec(int i, int j);
+	static Vec idxToVec(Idx v);
+	static Vec idxToCenteredVec(int i, int j);
+	static Vec idxToCenteredVec(Idx v);
 
 	static Idx vecToIdx(int x, int y);
 	static Idx vecToIdx(Vec v);

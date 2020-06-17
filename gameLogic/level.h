@@ -34,7 +34,7 @@ public:
 
 private:
 	Tile *tiles;
-	Tile emptytile; //the "out of bounds" tile
+	Tile voidsquare; //the "out of bounds" tile
 
 	QString levelname;
 	int width, height;

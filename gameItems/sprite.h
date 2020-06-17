@@ -16,9 +16,13 @@ public:
 	void setNextDir(Direction);
 	void setSpeed(int s);
 	void setCanPassGate(bool b);
+	bool getCanPassGate() const;
 
 	bool isAlive() const;
 	void setAlive(bool a);
+	int getSpeed() const;
+	Direction getCurDir() const;
+	Direction getNextDir() const;
 
 	void setPos_ij(int i, int j) override;
 	void setPos_ij(Idx v) override;

@@ -12,3 +12,7 @@ Vec Vec::operator+(const Vec &v) const{
 int Vec::l1dist(const Vec &v) const{
 	return abs(x - v.x) + abs(y - v.y);
 }
+
+int Vec::l2distSquared(const Vec &v) const{
+	return (x - v.x) * (x - v.x) + (y - v.y) * (y - v.y);
+}

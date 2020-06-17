@@ -5,18 +5,24 @@
 #include "gameItems/ghost.h"
 #include "gameItems/pacman.h"
 
+#include <QRandomGenerator>
+
 class GhostController{
 public:
 	GhostController(Level *level, Ghost *ghost, Pacman *pacman);
 	virtual void findTarget();
-	void findScaredTarget(); //the direction for when the ghost is scared
+	void findScaredTarget(); //the target for when the ghost is scared
+
+	void navigate(); //set ghost.nextTurn depending on the ghost's target and current pos
+
+	static QRandomGenerator rng; //only need 1 rng
 
 protected:
 	Level *level;
 	Ghost *ghost;
 	Pacman *pacman;
 
-	Idx target;
+	Vec target;
 };
 
 #endif // GHOSTCONTROLLER_H

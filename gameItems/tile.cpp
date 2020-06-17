@@ -71,7 +71,7 @@ char Tile::encode(enum Type t){
 
 
 void Tile::setPos_ij(int i, int j){
-	Vec v = getScreenPos(i,j);
+	Vec v = idxToVec(i,j);
 	this->setPos(v.x, v.y);
 }
 

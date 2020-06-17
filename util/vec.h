@@ -14,6 +14,7 @@ public:
 	Vec operator+(const Vec &v) const;
 
 	int l1dist(const Vec &v) const;
+	int l2distSquared(const Vec &v) const;
 };
 
 #endif // VEC_H

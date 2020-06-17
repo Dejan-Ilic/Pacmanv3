@@ -7,6 +7,6 @@ enum Direction{
 
 void setDirection(int &a, int &b, Direction d);
 int getPacmanRotation(Direction d);
-
+enum Direction opposite(Direction d);
 
 #endif // DIRECTIONS_H

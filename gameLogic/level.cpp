@@ -16,6 +16,8 @@ Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene):
 	drawmode(dm),
 	scene(scene)
 {
+	voidsquare.setType(error);
+
 	//read the level file
 	loadLevel();
 
@@ -27,7 +29,7 @@ Level::~Level(){
 
 Tile& Level::getTile(int i, int j){
 	if(i < 0 || j < 0 || i >= height || j >= width){
-		return emptytile;
+		return voidsquare;
 	}
 	return tiles[i*width + j];
 }
@@ -247,14 +249,14 @@ Type Level::eat(int x, int y){
 
 Type Level::eat(Vec v){
 	Idx p = Visual::centeredVecToIdx(v);
-	Vec pCenter = Visual::getCenteredScreenPos(p);
+	Vec pCenter = Visual::idxToCenteredVec(p);
 
 	//v: pacman pos, p: square he is in, pCenter: center pos of that square
 
 	Type type = getType(p);
 	bool edible = (type == coin || type == fruit || type == pill);
 
-	if(edible && v.l1dist(pCenter) < EAT_DIST){
+	if(edible && v.l1dist(pCenter) <= EAT_DIST){
 		setType(p.i, p.j, empty);
 
 		if(type == coin){

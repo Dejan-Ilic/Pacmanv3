@@ -18,9 +18,9 @@ void Sprite::move(const Level *level){
 	Idx nextidx = curidx + Idx(curdir); //next square if no turns are made
 	Idx wantedidx = curidx + Idx(nextdir); //next turn
 
-	Vec cursquare = Visual::getCenteredScreenPos(curidx);
+	Vec cursquare = Visual::idxToCenteredVec(curidx);
 	//Vec nextsquare = Visual::getCenteredScreenPos(nextidx);
-	Vec wantedsquare = Visual::getCenteredScreenPos(wantedidx);
+	Vec wantedsquare = Visual::idxToCenteredVec(wantedidx);
 
 	enum Type nexttype = level->getType(nextidx);
 	enum Type wantedtype = level->getType(wantedidx);
@@ -65,6 +65,18 @@ void Sprite::setAlive(bool a){
 	alive = a;
 }
 
+int Sprite::getSpeed() const{
+	return speed;
+}
+
+Direction Sprite::getCurDir() const{
+	return curdir;
+}
+
+Direction Sprite::getNextDir() const{
+	return nextdir;
+}
+
 void Sprite::setNextDir(Direction d){
 	nextdir = d;
 }
@@ -77,8 +89,12 @@ void Sprite::setCanPassGate(bool b){
 	canPassGate = b;
 }
 
+bool Sprite::getCanPassGate() const{
+	return canPassGate;
+}
+
 void Sprite::setPos_ij(int i, int j){
-	Vec v = getScreenPos(i,j);
+	Vec v = idxToVec(i,j);
 	this->setPos(v.x - TILE_WIDTH/2, v.y - TILE_HEIGHT/2);
 }
 

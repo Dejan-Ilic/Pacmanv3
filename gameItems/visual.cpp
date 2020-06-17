@@ -8,20 +8,20 @@ Visual::Visual(): QObject(), QGraphicsPixmapItem(){
 }
 
 
-Vec Visual::getScreenPos(int i, int j){
+Vec Visual::idxToVec(int i, int j){
 	return Vec(j*TILE_WIDTH, i*TILE_HEIGHT);
 }
 
-Vec Visual::getScreenPos(Idx v){
-	return getScreenPos(v.i, v.j);
+Vec Visual::idxToVec(Idx v){
+	return idxToVec(v.i, v.j);
 }
 
-Vec Visual::getCenteredScreenPos(int i, int j){
-	return getScreenPos(i, j) + Vec(TILE_WIDTH/2, TILE_HEIGHT/2);
+Vec Visual::idxToCenteredVec(int i, int j){
+	return idxToVec(i, j) + Vec(TILE_WIDTH/2, TILE_HEIGHT/2);
 }
 
-Vec Visual::getCenteredScreenPos(Idx v){
-	return getCenteredScreenPos(v.i, v.j);
+Vec Visual::idxToCenteredVec(Idx v){
+	return idxToCenteredVec(v.i, v.j);
 }
 
 Idx Visual::vecToIdx(int x, int y){
