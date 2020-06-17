@@ -6,6 +6,6 @@ ControllerAggressive::ControllerAggressive(Level *level, Ghost *ghost, Pacman *p
 
 }
 
-void ControllerAggressive::findTarget() const{
-
+void ControllerAggressive::findTarget(){
+	target = pacman->getCenterPos();
 }

@@ -7,7 +7,7 @@ class ControllerRandom: public GhostController{
 public:
 	ControllerRandom(Level *level, Ghost *ghost, Pacman *pacman);
 private:
-	void findTarget() const override;
+	void findTarget() override;
 };
 
 #endif // CONTROLLERRANDOM_H

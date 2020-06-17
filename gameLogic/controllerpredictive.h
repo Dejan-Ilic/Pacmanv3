@@ -7,7 +7,7 @@ class ControllerPredictive: public GhostController{
 public:
 	ControllerPredictive(Level *level, Ghost *ghost, Pacman *pacman);
 private:
-	void findTarget() const override;
+	void findTarget() override;
 };
 
 #endif // CONTROLLERPREDICTIVE_H

@@ -111,6 +111,8 @@ bool Level::loadLevel(){
 		}
 	}
 
+	totalcoins = numcoins;
+
 
 	correctly_loaded = true;
 	return true;
@@ -272,6 +274,10 @@ Type Level::eat(Vec v){
 
 int Level::getRemainingCoins() const{
 	return numcoins;
+}
+
+int Level::getTotalCoins() const{
+	return totalcoins;
 }
 
 Idx Level::getGhostSpawn(int i) const{

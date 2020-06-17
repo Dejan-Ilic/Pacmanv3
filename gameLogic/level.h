@@ -23,6 +23,7 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	int getRemainingCoins() const;
+	int getTotalCoins() const;
 
 	Idx getGhostSpawn(int i) const;
 
@@ -46,6 +47,7 @@ private:
 	Idx spawnlocation;
 	Idx ghostspawns[4];
 	int numcoins = 0;
+	int totalcoins = 0;
 
 	Tile& getTile(int i, int j);
 	void initTile(int i, int j, enum Type t);
