@@ -11,9 +11,9 @@ public:
 	Vec(const Vec &v): x(v.x), y(v.y){};
 	Vec(enum Direction d);
 
-	Vec operator+(const Vec &v);
+	Vec operator+(const Vec &v) const;
 
-	int l1dist(const Vec &v);
+	int l1dist(const Vec &v) const;
 };
 
 #endif // VEC_H

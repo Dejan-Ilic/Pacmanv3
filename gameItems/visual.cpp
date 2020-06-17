@@ -43,6 +43,6 @@ Idx Visual::centeredVecToIdx(int x, int y){
 	return centeredVecToIdx(Vec(x,y));
 }
 
-Idx Visual::getIdx(){	
+Idx Visual::getIdx() const{
 	return vecToIdx(x(), y());
 }

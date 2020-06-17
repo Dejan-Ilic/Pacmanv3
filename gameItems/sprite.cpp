@@ -57,7 +57,7 @@ void Sprite::move(const Level *level){
 
 }
 
-bool Sprite::isAlive(){
+bool Sprite::isAlive() const{
 	return alive;
 }
 

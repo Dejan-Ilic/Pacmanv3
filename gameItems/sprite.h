@@ -17,7 +17,7 @@ public:
 	void setSpeed(int s);
 	void setCanPassGate(bool b);
 
-	bool isAlive();
+	bool isAlive() const;
 	void setAlive(bool a);
 
 	void setPos_ij(int i, int j) override;

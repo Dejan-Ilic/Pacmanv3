@@ -11,9 +11,9 @@ public:
 	Idx(const Idx &v): i(v.i), j(v.j){};
 	Idx(Direction d);
 
-	Idx operator+(const Idx &v);
-	bool operator==(const Idx &v);
-	bool operator!=(const Idx &v);
+	Idx operator+(const Idx &v) const;
+	bool operator==(const Idx &v) const;
+	bool operator!=(const Idx &v) const;
 };
 
 #endif // IDX_H

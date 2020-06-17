@@ -24,7 +24,9 @@ public:
 	static Idx vecToIdx(Vec v);
 	static Idx centeredVecToIdx(int x, int y);
 	static Idx centeredVecToIdx(Vec v);
-	Idx getIdx();
+
+
+	Idx getIdx() const;
 
 	//essentials, have to be overridded
 	virtual void setPos_ij(int i, int j) = 0;

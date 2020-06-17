@@ -101,8 +101,8 @@ void Game::render(){
 	pacman->move(level);
 
 	//move les phantomes
-	/*
-	for(int i=0; i<4; ++i){ //todo
+	/* //todo
+	for(int i=0; i<4; ++i){
 		ghostcontrollers[i].calcDirections();
 		ghosts[i]->move(level);
 	}
@@ -277,6 +277,7 @@ void Game::clearSprites(){
 		}
 	}
 	//clear the controllers
+		//todo
 
 	//clear the player
 	if(pacman != nullptr){
@@ -294,7 +295,7 @@ void Game::spawnSprites(){
 	}
 
 	//init the controllers, which have their own timers
-
+		//todo
 
 
 	//init player
