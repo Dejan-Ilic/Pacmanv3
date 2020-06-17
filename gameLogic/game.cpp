@@ -129,14 +129,19 @@ void Game::render(){
 		showMessage("Level complete! Press (N) to continue.");
 	}
 
-	//check for gameover (collision, loss)
+	//check for gameover (collision, loss) and eat scared ghosts
 	bool collision = false;
 
 	Vec pacpos = pacman->getCenterPos();
 
 	for(int i=0; i<4; ++i){
 		if(pacpos.l1dist(ghosts[i]->getCenterPos()) <= EAT_DIST){
-			collision = true;
+			if(ghosts[i]->isScared()){
+				addScore(GHOSTEAT_SCORE);
+				respawnGhost(i);
+			}else{
+				collision = true;
+			}
 		}
 	}
 
@@ -266,6 +271,10 @@ void Game::clearLevel(){
 		delete level;
 		level = nullptr;
 	}
+}
+
+void Game::respawnGhost(int i){
+	//todo
 }
 
 void Game::clearSprites(){

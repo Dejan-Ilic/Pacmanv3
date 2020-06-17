@@ -15,5 +15,6 @@ bool Ghost::isScared(){
 
 void Ghost::setScared(int time){
 	scared = true;
+	curdir = opposite(curdir);
 	//todo
 }

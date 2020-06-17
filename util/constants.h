@@ -23,5 +23,6 @@
 
 #define FRUITTIME 30000
 #define FRUIT_SCORE 100
+#define GHOSTEAT_SCORE 300
 
 #endif // CONSTANTS_H

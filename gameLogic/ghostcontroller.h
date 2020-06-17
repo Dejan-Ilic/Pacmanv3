@@ -10,10 +10,9 @@
 class GhostController{
 public:
 	GhostController(Level *level, Ghost *ghost, Pacman *pacman);
-	virtual void findTarget();
-	void findScaredTarget(); //the target for when the ghost is scared
 
-	void navigate(); //set ghost.nextTurn depending on the ghost's target and current pos
+
+	void plan(); //findTarget, and then navigate
 
 	static QRandomGenerator rng; //only need 1 rng
 
@@ -23,6 +22,11 @@ protected:
 	Pacman *pacman;
 
 	Vec target;
+
+	virtual void findTarget() = 0;
+
+private:
+	void navigate(); //set ghost.nextTurn depending on the ghost's target and current pos
 };
 
 #endif // GHOSTCONTROLLER_H

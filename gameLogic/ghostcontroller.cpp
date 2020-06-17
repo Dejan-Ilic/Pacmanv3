@@ -9,12 +9,23 @@ GhostController::GhostController(Level *level, Ghost *ghost, Pacman *pacman):
 
 }
 
-void GhostController::findTarget(){
+void GhostController::plan(){
+	if(!active){
+		ghost->setNextDir(opposite(ghost->getCurDir())); //some uneasy back and forth waiting
+		return;
+	}
 
+	//first find the target square, using derived class findtarget!!!
+	if(!ghost->isScared()){
+		findTarget();
+	}
+
+	//then navigate
+	navigate();
 }
 
-void GhostController::findScaredTarget(){
-
+void GhostController::setActive(bool a){
+	active = a;
 }
 
 void GhostController::navigate(){
@@ -23,6 +34,14 @@ void GhostController::navigate(){
 	Vec ghostcenter = ghost->getCenterPos();
 
 	if( ghostcenter.l1dist(squarecenter) <= ghost->getSpeed()){
+		//let me exit the ghost waiting room!
+		if(level->getType(ghostidx) == ghost_floor){
+			ghost->setCanPassGate(true);
+		}else{
+			ghost->setCanPassGate(false);
+		}
+
+
 		//what turn can I make?
 		Direction lookCur = ghost->getCurDir();
 
