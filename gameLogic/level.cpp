@@ -37,7 +37,7 @@ Tile& Level::getTile(int i, int j){
 bool Level::loadLevel(){
 	//check if it exists
 	QFile file(levelname + LEVEL_SUFFIX);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){//nothing found, so make standard level
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text |  QIODevice::ExistingOnly)){//nothing found, so make standard level
 		width = LEVEL_WIDTH;
 		height = LEVEL_HEIGHT;
 
@@ -50,12 +50,25 @@ bool Level::loadLevel(){
 		for(int i=0+1; i<height-1; ++i){
 			initTile(i,0,wall);
 			for(int j=0+1; j<width-1; ++j){
-				initTile(i,j,coin);
+				initTile(i,j,empty);
 			}
 			initTile(i,width-1,wall);
 		}
 
 		setType(height-2, width/2, spawn);
+		setType(1,1,ghost_floor);
+		setType(2,1,ghost_floor);
+		setType(1,2,ghost_floor);
+		setType(2,2,ghost_floor);
+
+		setType(3,1,ghost_gate);
+		setType(3,2,ghost_gate);
+
+		setType(1,3,wall);
+		setType(2,3,wall);
+		setType(3,3,wall);
+
+		setType(height-2, width/2 + 1, coin);
 
 		for(int j=0; j<width; j++){
 			initTile(height-1,j,wall);

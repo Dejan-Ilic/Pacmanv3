@@ -24,27 +24,38 @@ Game::Game(QWidget *parent){
 	setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 
+	//init message system
+	msgRect.setRect(200, 200, 500, 100);
+	msgRect.setBrush(QBrush(Qt::yellow));
+	msgRect.setZValue(1000);
+	scene->addItem(&msgRect);
+	msgRect.setVisible(false);
+
+	msgText.setBrush(QBrush(Qt::black));
+	msgText.setFont(QFont("Times", 20, QFont::Bold));
+	msgText.setPos(220, 230);
+	msgText.setZValue(msgRect.zValue() + 1);
+	scene->addItem(&msgText);
+	msgText.setVisible(false);
+
 	//read level orders
 	QFile file(LEVEL_ORDER);
-	file.open(QIODevice::ReadOnly | QIODevice::Text);
-	QTextStream in(&file);
 
-	while(!in.atEnd()){
-		QString line = in.readLine();
-		levellist.append(line);
+	if( file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly) ){
+		QTextStream in(&file);
+
+		while(!in.atEnd()){
+			QString line = in.readLine();
+			levellist.append(line);
+		}
+		file.close();
 	}
-	file.close();
 
+	//no levels were found...
 	if(levellist.length() == 0){
 		loadingerror = true;
-		pacman = nullptr;
-		level = nullptr;
-		for(int i=0; i<4; ++i){
-			ghosts[i] = nullptr;
-			controller[i] = nullptr;
-		}
+		showMessage("No existing levels. Press (K) to quit \nand go make some levels.");
 
-		QMessageBox::warning(this, "LEVEL LOADING ERROR", "No existing levels. Press (K) to quit and go make some levels.");
 		return;
 	}
 
@@ -65,20 +76,6 @@ Game::Game(QWidget *parent){
 	QObject::connect(&releasetimer, SIGNAL(timeout()), this, SLOT(releaseGhosts()));
 
 	startTimers();
-
-	//init message system
-	msgRect.setRect(200, 200, 500, 100);
-	msgRect.setBrush(QBrush(Qt::yellow));
-	msgRect.setZValue(1000);
-	scene->addItem(&msgRect);
-	msgRect.setVisible(false);
-
-	msgText.setBrush(QBrush(Qt::black));
-	msgText.setFont(QFont("Times", 20, QFont::Bold));
-	msgText.setPos(220, 230);
-	msgText.setZValue(msgRect.zValue() + 1);
-	scene->addItem(&msgText);
-	msgText.setVisible(false);
 
 	//init info texts
 	scoreText.setBrush(QBrush(Qt::white));
@@ -111,9 +108,11 @@ Game::Game(QWidget *parent){
 }
 
 Game::~Game(){
-	stopTimers();
-	clearLevel();
-	clearSprites();
+	if(!loadingerror){
+		stopTimers();
+		clearLevel();
+		clearSprites();
+	}
 }
 
 void Game::render(){
@@ -227,6 +226,7 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 	if(loadingerror){
 		on_MainMenuButton_clicked();
+		return;
 	}
 
 	switch(key){
