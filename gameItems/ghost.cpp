@@ -1,10 +1,29 @@
 #include "ghost.h"
 #include "gameLogic/ghostcontroller.h"
 
-Ghost::Ghost(QString appearance, int speed, Idx spawn, GhostController *controller):
-	Sprite(appearance, speed), appearance(appearance), controller(controller){
+#include <gameLogic/controlleraggressive.h>
+#include <gameLogic/controllerpredictive.h>
+#include <gameLogic/controllerpursuit.h>
+#include <gameLogic/controllerrandom.h>
 
-	controller->setGhost(this);
+Ghost::Ghost(QString appearance, int speed, Idx spawn, ControllerType ct):
+	Sprite(appearance, speed), appearance(appearance){
+
+	switch(ct){
+	case AGGRESSIVE:
+		controller = new ControllerAggressive(this);
+		break;
+	case PREDICTIVE:
+		controller = new ControllerPredictive(this);
+		break;
+	case PURSUIT:
+		controller = new ControllerPursuit(this);
+		break;
+	case RANDOM:
+		controller = new ControllerRandom(this);
+		break;
+
+	}
 
 	canPassGate = false;
 	alive = false;

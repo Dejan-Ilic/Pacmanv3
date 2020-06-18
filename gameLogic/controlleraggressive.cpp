@@ -1,6 +1,6 @@
 #include "controlleraggressive.h"
 
-ControllerAggressive::ControllerAggressive(){
+ControllerAggressive::ControllerAggressive(Ghost *g): GhostController(g){
 
 }
 

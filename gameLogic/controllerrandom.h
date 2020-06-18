@@ -5,7 +5,7 @@
 
 class ControllerRandom: public GhostController{
 public:
-	ControllerRandom();
+	ControllerRandom(Ghost *g);
 	~ControllerRandom();
 private:
 	void findTarget(Level *level, Pacman *pacman) override;

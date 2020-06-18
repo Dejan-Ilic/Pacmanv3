@@ -3,7 +3,7 @@
 QRandomGenerator GhostController::rng = QRandomGenerator::securelySeeded();
 
 
-GhostController::GhostController(){
+GhostController::GhostController(Ghost *g): ghost(g){
 
 }
 
@@ -25,11 +25,6 @@ void GhostController::plan(Level* level, Pacman *pacman){
 	//then navigate, i.e. decide what turn to take
 	navigate(level);
 }
-
-void GhostController::setGhost(Ghost *g){
-	ghost = g;
-}
-
 
 void GhostController::navigate(Level *level){
 	Idx ghostidx = ghost->getIdx();

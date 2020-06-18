@@ -1,6 +1,6 @@
 #include "controllerpredictive.h"
 
-ControllerPredictive::ControllerPredictive(){
+ControllerPredictive::ControllerPredictive(Ghost *g): GhostController(g){
 
 }
 

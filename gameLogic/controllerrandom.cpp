@@ -1,6 +1,6 @@
 #include "controllerrandom.h"
 
-ControllerRandom::ControllerRandom(){
+ControllerRandom::ControllerRandom(Ghost *g): GhostController(g){
 
 }
 

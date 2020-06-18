@@ -5,9 +5,11 @@
 
 class GhostController;
 
+enum ControllerType{ AGGRESSIVE, PREDICTIVE, PURSUIT, RANDOM};
+
 class Ghost: public Sprite{
 public:
-	Ghost(QString appearance, int speed, Idx spawn, GhostController *controller);
+	Ghost(QString appearance, int speed, Idx spawn, ControllerType ct);
 	~Ghost();
 
 	bool isScared();

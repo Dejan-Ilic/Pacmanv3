@@ -5,7 +5,7 @@
 
 class ControllerAggressive : public GhostController{
 public:
-	ControllerAggressive();
+	ControllerAggressive(Ghost *g);
 	~ControllerAggressive();
 private:
 	void findTarget(Level *level, Pacman *pacman) override;

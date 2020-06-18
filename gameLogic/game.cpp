@@ -349,16 +349,11 @@ void Game::spawnSprites(){
 	//init ghosts
 	QString ghostcolors[4] = {"red", "green", "blue", "yellow"};
 
-	ghosts[0] = new Ghost("a", 1, Idx(1,1), new ControllerRandom());
 
-	ghosts[0] = new Ghost(":/images/ghost_"+ghostcolors[0], NORMAL_SPEED, level->getGhostSpawn(0),
-						  new ControllerAggressive());
-	ghosts[1] = new Ghost(":/images/ghost_"+ghostcolors[1], NORMAL_SPEED, level->getGhostSpawn(1),
-						  new ControllerPredictive());
-	ghosts[2] = new Ghost(":/images/ghost_"+ghostcolors[2], NORMAL_SPEED, level->getGhostSpawn(2),
-						  new ControllerPursuit());
-	ghosts[3] = new Ghost(":/images/ghost_"+ghostcolors[3], NORMAL_SPEED, level->getGhostSpawn(3),
-						  new ControllerRandom());
+	ghosts[0] = new Ghost(":/images/ghost_"+ghostcolors[0], NORMAL_SPEED, level->getGhostSpawn(0), AGGRESSIVE);
+	ghosts[1] = new Ghost(":/images/ghost_"+ghostcolors[1], NORMAL_SPEED, level->getGhostSpawn(1), PREDICTIVE);
+	ghosts[2] = new Ghost(":/images/ghost_"+ghostcolors[2], NORMAL_SPEED, level->getGhostSpawn(2), PURSUIT);
+	ghosts[3] = new Ghost(":/images/ghost_"+ghostcolors[3], NORMAL_SPEED, level->getGhostSpawn(3), RANDOM);
 
 	//now add them to the scene
 	for(int i=0; i<4; ++i){

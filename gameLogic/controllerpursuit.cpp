@@ -1,6 +1,6 @@
 #include "controllerpursuit.h"
 
-ControllerPursuit::ControllerPursuit(){
+ControllerPursuit::ControllerPursuit(Ghost *g): GhostController(g){
 
 }
 
