@@ -37,6 +37,8 @@ protected:
 	Direction nextdir = LEFT;
 	bool canPassGate = false;
 	bool alive = true;
+
+	virtual void rotateSprite();
 };
 
 #endif // SPRITE_H

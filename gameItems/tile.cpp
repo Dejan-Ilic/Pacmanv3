@@ -2,6 +2,8 @@
 #include "util/constants.h"
 
 
+enum DrawMode Tile::drawMode = DRAWMODE_GAME;
+
 Tile::Tile(enum Type t){
 	setType(t);
 	setTransformOriginPoint(TILE_WIDTH/2, TILE_HEIGHT/2);
@@ -22,21 +24,42 @@ void Tile::setType(enum Type t){
 
 QString Tile::getImage(enum Type t){
 	QString s = "error";
-	switch(t){
-	case empty: s= "empty"; break;
-	case wall: s= "wall"; break;
-	case ghost_gate: s= "ghost_gate"; break;
-	case ghost_floor: s= "ghost_floor"; break;
-	case teleportA: s= "teleportA"; break;
-	case teleportB: s= "teleportB"; break;
-	case pill: s= "pill"; break;
-	case coin: s= "coin"; break;
-	case fruit: s= "fruit"; break;
-	case spawn: s= "spawn"; break;
-	//default: s= "error"; break;
+	if(drawMode == DRAWMODE_GAME){
+		switch(t){
+		case empty:
+		case ghost_floor:
+		case teleportA:
+		case teleportB:
+		case spawn:
+			s= "empty"; break;
+
+		case wall: s= "wall"; break;
+		case ghost_gate: s= "ghost_gate"; break;
+		case pill: s= "pill"; break;
+		case coin: s= "coin"; break;
+		case fruit: s= "fruit"; break;
+		}
+	}else{
+		switch(t){
+		case empty: s= "empty"; break;
+		case wall: s= "wall"; break;
+		case ghost_gate: s= "ghost_gate"; break;
+		case ghost_floor: s= "ghost_floor"; break;
+		case teleportA: s= "teleportA"; break;
+		case teleportB: s= "teleportB"; break;
+		case pill: s= "pill"; break;
+		case coin: s= "coin"; break;
+		case fruit: s= "fruit"; break;
+		case spawn: s= "spawn"; break;
+		//default: s= "error"; break;
+		}
 	}
 
 	return ":/images/" + s + ".png";
+}
+
+void Tile::setDrawMode(DrawMode d){
+	drawMode = d;
 }
 
 enum Type Tile::decode(char c){

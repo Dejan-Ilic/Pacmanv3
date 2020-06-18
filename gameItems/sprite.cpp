@@ -29,14 +29,14 @@ void Sprite::move(const Level *level){
 	if(abs(curidx.i) == abs(nextidx.i) && abs(curidx.j) == abs(nextidx.j) && curidx.i != nextidx.i && curidx.j != nextidx.j){
 		//zelfde richting, tegenovergestelde zin
 		curdir = nextdir;
-		setRotation(getPacmanRotation(curdir));
+		rotateSprite();
 
 
 	}else if(passWanted && curdir != nextdir  && (abs(wantedsquare.x - x) <= speed || abs(wantedsquare.y - y) <= speed)){
 		//take the turn
 		this->setPos_ij(curidx.i, curidx.j);
 		curdir = nextdir;
-		setRotation(getPacmanRotation(curdir));
+		rotateSprite();
 
 
 	}else if(!passNext  && cursquare.l1dist(Vec(x, y)) <= speed){
@@ -51,6 +51,10 @@ void Sprite::move(const Level *level){
 	}
 
 
+}
+
+void Sprite::rotateSprite(){
+	setRotation(getPacmanRotation(curdir));
 }
 
 bool Sprite::isAlive() const{

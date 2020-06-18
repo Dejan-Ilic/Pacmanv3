@@ -19,5 +19,25 @@
         <file>spawn.png</file>
         <file>teleportA.png</file>
         <file>teleportB.png</file>
+        <file>ghost_blue_DOWN.png</file>
+        <file>ghost_blue_LEFT.png</file>
+        <file>ghost_blue_RIGHT.png</file>
+        <file>ghost_blue_UP.png</file>
+        <file>ghost_green_DOWN.png</file>
+        <file>ghost_green_LEFT.png</file>
+        <file>ghost_green_RIGHT.png</file>
+        <file>ghost_green_UP.png</file>
+        <file>ghost_red_DOWN.png</file>
+        <file>ghost_red_LEFT.png</file>
+        <file>ghost_red_RIGHT.png</file>
+        <file>ghost_red_UP.png</file>
+        <file>ghost_scared_DOWN.png</file>
+        <file>ghost_scared_LEFT.png</file>
+        <file>ghost_scared_RIGHT.png</file>
+        <file>ghost_scared_UP.png</file>
+        <file>ghost_yellow_DOWN.png</file>
+        <file>ghost_yellow_LEFT.png</file>
+        <file>ghost_yellow_RIGHT.png</file>
+        <file>ghost_yellow_UP.png</file>
     </qresource>
 </RCC>

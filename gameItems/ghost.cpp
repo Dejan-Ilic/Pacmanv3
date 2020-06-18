@@ -6,8 +6,10 @@
 #include <gameLogic/controllerpursuit.h>
 #include <gameLogic/controllerrandom.h>
 
+const QString Ghost::baseScaredAppearance = GHOST_SCARED;
+
 Ghost::Ghost(QString appearance, int speed, Idx spawn, ControllerType ct):
-	Sprite(appearance, speed), appearance(appearance){
+	Sprite(appendAppearance(appearance, LEFT), speed), appearance(appearance), baseAppearance(appearance){
 
 	switch(ct){
 	case AGGRESSIVE:
@@ -19,10 +21,9 @@ Ghost::Ghost(QString appearance, int speed, Idx spawn, ControllerType ct):
 	case PURSUIT:
 		controller = new ControllerPursuit(this);
 		break;
-	case RANDOM:
+	default://RANDOM
 		controller = new ControllerRandom(this);
 		break;
-
 	}
 
 	canPassGate = false;
@@ -50,16 +51,19 @@ void Ghost::setScared(bool newstate){
 	if(scared){
 		nextdir = opposite(curdir);
 		speed = PILL_SPEED;
-
-		//set sprite to scared
-		changeAppearance(GHOST_SCARED);
-
+		appearance = baseScaredAppearance;
 
 	}else{
 		speed = NORMAL_SPEED;
-		//set sprite to ghost
-		changeAppearance(appearance);
+		appearance = baseAppearance;
 	}
+
+	changeAppearance(appendAppearance(appearance, curdir));
+
+}
+
+void Ghost::rotateSprite(){
+	changeAppearance(appendAppearance(appearance, curdir));
 }
 
 void Ghost::toSpawn(Idx spawn){
@@ -69,4 +73,15 @@ void Ghost::toSpawn(Idx spawn){
 void Ghost::move(Level *level, Pacman *pacman){
 	controller->plan(level, pacman);
 	Sprite::move(level);
+}
+
+QString Ghost::appendAppearance(QString app, Direction dir){
+	QString s = "";
+
+	switch(dir){
+	case LEFT: return app + "_LEFT.png";
+	case RIGHT: return app + "_RIGHT.png";
+	case UP: return app + "_UP.png";
+	case DOWN: return app + "_DOWN.png";
+	}
 }

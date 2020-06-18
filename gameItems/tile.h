@@ -23,6 +23,11 @@ enum Type{
 	error
 };
 
+enum DrawMode{
+	DRAWMODE_GAME,
+	DRAWMODE_EDITOR
+};
+
 class Tile: public Visual{
 public:
 	Tile(enum Type t=empty);
@@ -36,6 +41,8 @@ public:
 	static enum Type decode(char c);
 	static QString getImage(enum Type t);
 
+	static void setDrawMode(enum DrawMode d);
+
 	void setPos_ij(int i, int j) override;
 	void setPos_ij(Idx v) override;
 
@@ -45,7 +52,7 @@ public:
 
 private:
 	enum Type type;
-
+	static enum DrawMode drawMode;
 
 };
 

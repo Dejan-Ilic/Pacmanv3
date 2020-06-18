@@ -1,5 +1,6 @@
 #include "leveleditor.h"
 #include "util/constants.h"
+#include "gameItems/tile.h"
 
 #include <math.h>
 

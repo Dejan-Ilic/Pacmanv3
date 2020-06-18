@@ -15,6 +15,7 @@ Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene):
 	drawmode(dm),
 	scene(scene)
 {
+	Tile::setDrawMode(drawmode);
 	voidsquare.setType(error);
 
 	//read the level file

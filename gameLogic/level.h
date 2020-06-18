@@ -4,11 +4,6 @@
 #include "util/idx.h"
 #include <QGraphicsScene>
 
-enum DrawMode{
-	DRAWMODE_GAME,
-	DRAWMODE_EDITOR
-};
-
 class Level{
 public:
 	Level(QString levelname, enum DrawMode drawmode, QGraphicsScene *scene);

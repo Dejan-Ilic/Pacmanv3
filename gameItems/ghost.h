@@ -2,6 +2,7 @@
 #define GHOST_H
 #include "pacman.h"
 #include "sprite.h"
+#include "util/constants.h"
 
 class GhostController;
 
@@ -19,8 +20,14 @@ public:
 
 private:
 	bool scared = false;
-	QString appearance;
+
+	QString appearance, baseAppearance;
+	static const QString baseScaredAppearance;
+	static QString appendAppearance(QString app, Direction dir);
+
 	GhostController *controller;
+
+	void rotateSprite();
 
 };
 
