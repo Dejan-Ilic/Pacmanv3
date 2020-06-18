@@ -1,12 +1,20 @@
 #include "ghost.h"
+#include "gameLogic/ghostcontroller.h"
 
-Ghost::Ghost(QString appearance, int speed, Idx spawn):
-	Sprite(appearance, speed), spawn(spawn), appearance(appearance){
+Ghost::Ghost(QString appearance, int speed, Idx spawn, GhostController *controller):
+	Sprite(appearance, speed), appearance(appearance), controller(controller){
 
-	canPassGate = true;
+	controller->setGhost(this);
+
+	canPassGate = false;
+	alive = false;
 
 	setPos_ij(spawn);
 
+}
+
+Ghost::~Ghost(){
+	delete controller;
 }
 
 bool Ghost::isScared(){
@@ -35,6 +43,11 @@ void Ghost::setScared(bool newstate){
 	}
 }
 
-void Ghost::toSpawn(){
+void Ghost::toSpawn(Idx spawn){
 	setPos_ij(spawn);
+}
+
+void Ghost::move(Level *level, Pacman *pacman){
+	controller->plan(level, pacman);
+	Sprite::move(level);
 }

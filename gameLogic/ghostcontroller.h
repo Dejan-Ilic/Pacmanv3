@@ -7,31 +7,28 @@
 
 #include <QRandomGenerator>
 
+
 class GhostController{
 public:
-	GhostController(Level *level, Ghost *ghost, Pacman *pacman);
+	GhostController();
 	virtual ~GhostController();
 
-
-	void plan(); //findTarget, and then navigate
-	void setActive(bool a);
-	bool isActive();
+	void plan(Level* level, Pacman* pacman); //findTarget, and then navigate
+	void setGhost(Ghost *g);
 
 	static QRandomGenerator rng; //only need 1 rng
 
 protected:
-	Level *level;
 	Ghost *ghost;
-	Pacman *pacman;
 
 	Vec target;
 	Idx lastturn;
 
-	virtual void findTarget() = 0;
+	virtual void findTarget(Level *level, Pacman *pacman) = 0;
 
 private:
-	void navigate(); //set ghost.nextTurn depending on the ghost's target and current pos
-	bool active = false;
+	void navigate(Level *level); //set ghost.nextTurn depending on the ghost's target and current pos
+
 };
 
 #endif // GHOSTCONTROLLER_H

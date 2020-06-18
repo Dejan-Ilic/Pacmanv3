@@ -5,9 +5,10 @@
 
 class ControllerPursuit: public GhostController{
 public:
-	ControllerPursuit(Level *level, Ghost *ghost, Pacman *pacman);
+	ControllerPursuit();
+	~ControllerPursuit();
 private:
-	void findTarget() override;
+	void findTarget(Level *level, Pacman *pacman) override;
 };
 
 #endif // CONTROLLERPURSUIT_H

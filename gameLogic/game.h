@@ -32,7 +32,6 @@ private:
 
 	Pacman *pacman;
 	Ghost *ghosts[4];
-	GhostController *controller[4];
 	Level *level;
 
 	//leveldata

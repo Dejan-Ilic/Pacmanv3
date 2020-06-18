@@ -8,7 +8,6 @@
 
 #include <fstream>
 #include <string>
-using namespace std;
 
 Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene):
 	levelname(levelname),
@@ -203,13 +202,13 @@ QString Level::saveLevel(){
 
 	}
 	//now save the file
-	ofstream myfile;
+	std::ofstream myfile;
 	myfile.open ( (levelname + LEVEL_SUFFIX).toStdString() );
 	for(int i=0; i<LEVEL_HEIGHT; ++i){
 		for(int j=0; j<LEVEL_WIDTH; ++j){
 			myfile << Tile::encode(this->getType(i,j));
 		}
-		myfile << endl;
+		myfile << std::endl;
 	}
 	myfile.close();
 

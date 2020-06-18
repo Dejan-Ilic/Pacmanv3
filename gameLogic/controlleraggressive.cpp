@@ -1,11 +1,13 @@
 #include "controlleraggressive.h"
 
-ControllerAggressive::ControllerAggressive(Level *level, Ghost *ghost, Pacman *pacman):
-	GhostController(level, ghost, pacman)
-{
+ControllerAggressive::ControllerAggressive(){
 
 }
 
-void ControllerAggressive::findTarget(){
+ControllerAggressive::~ControllerAggressive(){
+
+}
+
+void ControllerAggressive::findTarget(Level *level, Pacman *pacman){
 	target = pacman->getCenterPos();
 }

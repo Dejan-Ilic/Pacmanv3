@@ -1,12 +1,14 @@
 #include "controllerpredictive.h"
 
-ControllerPredictive::ControllerPredictive(Level *level, Ghost *ghost, Pacman *pacman):
-	GhostController(level, ghost, pacman)
-{
+ControllerPredictive::ControllerPredictive(){
 
 }
 
-void ControllerPredictive::findTarget(){
+ControllerPredictive::~ControllerPredictive(){
+
+}
+
+void ControllerPredictive::findTarget(Level *level, Pacman *pacman){
 	int dx = 0, dy=0;
 	setDirection(dx,dy, pacman->getCurDir());
 

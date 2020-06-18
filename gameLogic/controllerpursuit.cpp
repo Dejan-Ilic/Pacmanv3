@@ -1,12 +1,14 @@
 #include "controllerpursuit.h"
 
-ControllerPursuit::ControllerPursuit(Level *level, Ghost *ghost, Pacman *pacman):
-	GhostController(level, ghost, pacman)
-{
+ControllerPursuit::ControllerPursuit(){
 
 }
 
-void ControllerPursuit::findTarget(){
+ControllerPursuit::~ControllerPursuit(){
+
+}
+
+void ControllerPursuit::findTarget(Level *level, Pacman *pacman){
 	int dx = 0, dy=0;
 	setDirection(dx,dy, pacman->getCurDir());
 

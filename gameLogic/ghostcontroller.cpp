@@ -3,9 +3,7 @@
 QRandomGenerator GhostController::rng = QRandomGenerator::securelySeeded();
 
 
-GhostController::GhostController(Level *level, Ghost *ghost, Pacman *pacman):
-	level(level), ghost(ghost), pacman(pacman)
-{
+GhostController::GhostController(){
 
 }
 
@@ -13,30 +11,27 @@ GhostController::~GhostController(){
 
 }
 
-void GhostController::plan(){
-	if(!active){
+void GhostController::plan(Level* level, Pacman *pacman){
+	if(!ghost->isAlive()){
 		ghost->setNextDir(opposite(ghost->getCurDir())); //some uneasy back and forth waiting
 		return;
 	}
 
 	//first find the target square, using derived class findtarget!!!
 	if(!ghost->isScared()){
-		findTarget();
+		findTarget(level, pacman);
 	}
 
-	//then navigate
-	navigate();
+	//then navigate, i.e. decide what turn to take
+	navigate(level);
 }
 
-void GhostController::setActive(bool a){
-	active = a;
+void GhostController::setGhost(Ghost *g){
+	ghost = g;
 }
 
-bool GhostController::isActive(){
-	return active;
-}
 
-void GhostController::navigate(){
+void GhostController::navigate(Level *level){
 	Idx ghostidx = ghost->getIdx();
 	Vec squarecenter = Visual::idxToCenteredVec(ghostidx);
 	Vec ghostcenter = ghost->getCenterPos();
@@ -105,7 +100,6 @@ void GhostController::navigate(){
 					}
 				}
 			}
-
 			ghost->setNextDir(bestdir);
 		}
 	}

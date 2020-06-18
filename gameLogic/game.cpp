@@ -121,8 +121,7 @@ void Game::render(){
 
 	//move les phantomes
 	for(int i=0; i<4; ++i){
-		controller[i]->plan();
-		ghosts[i]->move(level);
+		ghosts[i]->move(level, pacman);
 	}
 
 
@@ -135,7 +134,7 @@ void Game::render(){
 	case pill:
 		//set all active ghosts in pill mode
 		for(int i=0; i<4; ++i){
-			if(controller[i]->isActive()){
+			if(ghosts[i]->isAlive()){
 				ghosts[i]->setScared(true);
 			}
 		}
@@ -248,12 +247,14 @@ void Game::keyPressEvent(QKeyEvent *event){
 	case Qt::Key_N:
 		if(level->getRemainingCoins() == 0){
 			clearMessage();
+			hidePillText();
 
 			//next level
 			clearLevel();
 			clearSprites();
 
 			increaseLevel(1);
+
 			loadLevel();
 			spawnSprites();
 			startTimers();
@@ -304,9 +305,9 @@ void Game::clearLevel(){
 }
 
 void Game::respawnGhost(int i){
-	ghosts[i]->toSpawn();
+	ghosts[i]->toSpawn(level->getGhostSpawn(i));
 	ghosts[i]->setScared(false);
-	controller[i]->setActive(false);
+	ghosts[i]->setAlive(false);
 }
 
 void Game::showPillText(){
@@ -331,13 +332,6 @@ void Game::clearSprites(){
 			ghosts[i] = nullptr;
 		}
 	}
-	//clear the controllers
-	for(int i=0; i<4; ++i){
-		if(controller[i] != nullptr){
-			delete controller[i];
-			controller[i] = nullptr;
-		}
-	}
 
 	//clear the player
 	if(pacman != nullptr){
@@ -354,16 +348,22 @@ void Game::spawnSprites(){
 
 	//init ghosts
 	QString ghostcolors[4] = {"red", "green", "blue", "yellow"};
+
+	ghosts[0] = new Ghost("a", 1, Idx(1,1), new ControllerRandom());
+
+	ghosts[0] = new Ghost(":/images/ghost_"+ghostcolors[0], NORMAL_SPEED, level->getGhostSpawn(0),
+						  new ControllerAggressive());
+	ghosts[1] = new Ghost(":/images/ghost_"+ghostcolors[1], NORMAL_SPEED, level->getGhostSpawn(1),
+						  new ControllerPredictive());
+	ghosts[2] = new Ghost(":/images/ghost_"+ghostcolors[2], NORMAL_SPEED, level->getGhostSpawn(2),
+						  new ControllerPursuit());
+	ghosts[3] = new Ghost(":/images/ghost_"+ghostcolors[3], NORMAL_SPEED, level->getGhostSpawn(3),
+						  new ControllerRandom());
+
+	//now add them to the scene
 	for(int i=0; i<4; ++i){
-		ghosts[i] = new Ghost(":/images/ghost_"+ghostcolors[i], NORMAL_SPEED, level->getGhostSpawn(i));
 		scene->addItem(ghosts[i]);
 	}
-
-	//init the controllers, which have their own timers
-	controller[0] = new ControllerAggressive(level, ghosts[0], pacman);
-	controller[1] = new ControllerPredictive(level, ghosts[1], pacman);
-	controller[2] = new ControllerPursuit(level, ghosts[2], pacman);
-	controller[3] = new ControllerRandom(level, ghosts[3], pacman);
 }
 
 void Game::releaseGhosts(){
@@ -374,8 +374,8 @@ void Game::releaseGhosts(){
 	float thresholds[4] = RELEASE_THRESHOLDS;
 
 	for(int i=0; i<4; ++i){
-		if(!controller[i]->isActive() && frac <= thresholds[i]){
-			controller[i]->setActive(true);
+		if(!ghosts[i]->isAlive() && frac <= thresholds[i]){
+			ghosts[i]->setAlive(true);
 		}
 	}
 
