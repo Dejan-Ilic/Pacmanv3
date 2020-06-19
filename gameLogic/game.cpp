@@ -8,10 +8,10 @@
 #include <QBrush>
 #include <Qt>
 #include <QKeyEvent>
-#include <QDebug>
 #include <QMessageBox>
 #include <QRandomGenerator>
 #include <QString>
+#include <QTextStream>
 
 Game::Game(QWidget *parent){
 	//init screen
