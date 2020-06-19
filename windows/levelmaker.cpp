@@ -85,10 +85,6 @@ void LevelMaker::toFirstPage(){
 	updateLists();
 }
 
-void LevelMaker::openEditor(QString lvlname){
-	newSubScreen(new LevelEditor(lvlname));
-}
-
 void LevelMaker::saveLevelOrder(){
 	QFile file(LEVEL_ORDER);
 
@@ -130,7 +126,7 @@ void LevelMaker::on_EditButton_clicked(){
 		return;
 	}
 
-	openEditor(s);
+	newSubScreen(new LevelEditor(s));
 
 }
 

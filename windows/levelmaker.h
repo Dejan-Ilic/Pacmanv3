@@ -21,7 +21,6 @@ private:
 	Ui::LevelMaker *ui;
 	QWidget *subscreen;
 
-	void openEditor(QString lvlname);
 	void newSubScreen(QWidget *ss);
 	void updateLists();
 	void saveLevelOrder();
