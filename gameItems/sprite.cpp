@@ -20,8 +20,8 @@ void Sprite::move(const Level *level){
 	//Vec nextsquare = Visual::getCenteredScreenPos(nextidx);
 	Vec wantedsquare = Visual::idxToCenteredVec(wantedidx);
 
-	enum Type nexttype = level->getType(nextidx);
-	enum Type wantedtype = level->getType(wantedidx);
+	enum Type nexttype = level->getTileType(nextidx);
+	enum Type wantedtype = level->getTileType(wantedidx);
 
 	bool passNext =	  ((nexttype != wall)	&&	(nexttype != ghost_gate   || canPassGate));
 	bool passWanted = ((wantedtype != wall) &&	(wantedtype != ghost_gate || canPassGate));

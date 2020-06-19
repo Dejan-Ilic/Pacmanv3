@@ -204,7 +204,7 @@ void Game::spawnFruit(){
 
 	for(int i=0; i<H; ++i){
 		for(int j=0; j<W; ++j){
-			if(level->getType(i,j) == empty){
+			if(level->getTileType(i,j) == empty){
 				list.append(Idx(i,j));
 			}
 		}
@@ -216,7 +216,7 @@ void Game::spawnFruit(){
 		int i = rng.bounded(0, list.length());
 		Idx v = list.at(i);
 
-		level->setType(v.i, v.j, fruit);
+		level->setTileType(v.i, v.j, fruit);
 	}
 }
 

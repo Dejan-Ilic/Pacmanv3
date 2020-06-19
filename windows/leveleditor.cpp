@@ -42,7 +42,7 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 
 	//init editor gui
 	for(int i=0; i<Nlabels; ++i){
-		drawmode = drawtype[i];
+		typebrush = drawtype[i];
 		Vec pos = labelpos[i];
 
 		label[i] = scene->addSimpleText(caption[i]);
@@ -50,8 +50,8 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 		label[i]->setBrush(unselected);
 	}
 
-	//drawmode back to empty
-	drawmode = empty;
+	//typebrush back to empty
+	typebrush = empty;
 	label[0]->setBrush(selected);
 
 	//quit label
@@ -67,11 +67,11 @@ LevelEditor::~LevelEditor(){
 	}
 }
 
-void LevelEditor::switchMode(Type t){
-	int prev_but = getButtonIdx(drawmode);
+void LevelEditor::switchBrush(Type t){
+	int prev_but = getButtonIdx(typebrush);
 	int next_but = getButtonIdx(t);
 
-	drawmode = t;
+	typebrush = t;
 
 	label[prev_but]->setBrush(unselected);
 	label[next_but]->setBrush(selected);
@@ -117,35 +117,35 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 		break;
 
 	case Qt::Key_E:
-		switchMode(empty);
+		switchBrush(empty);
 		break;
 	case Qt::Key_W:
-		switchMode(wall);
+		switchBrush(wall);
 		break;
 	case Qt::Key_G:
-		switchMode(ghost_gate);
+		switchBrush(ghost_gate);
 		break;
 	case Qt::Key_F:
-		switchMode(ghost_floor);
+		switchBrush(ghost_floor);
 		break;
 	case Qt::Key_S:
-		switchMode(spawn);
+		switchBrush(spawn);
 		break;
 
 	case Qt::Key_A:
-		switchMode(teleportA);
+		switchBrush(teleportA);
 		break;
 	case Qt::Key_B:
-		switchMode(teleportB);
+		switchBrush(teleportB);
 		break;
 	case Qt::Key_T:
-		switchMode(fruit);
+		switchBrush(fruit);
 		break;
 	case Qt::Key_C:
-		switchMode(coin);
+		switchBrush(coin);
 		break;
 	case Qt::Key_P:
-		switchMode(pill);
+		switchBrush(pill);
 		break;
 
 	}
@@ -156,7 +156,7 @@ void LevelEditor::mousePressEvent(QMouseEvent *event){
 	int i = floor(0.5 + (event->y() - TILE_HEIGHT/2)/static_cast<double>(TILE_HEIGHT));
 	int j = floor(0.5 + (event->x() - TILE_WIDTH/2)/static_cast<double>(TILE_WIDTH));
 
-	level->setType(i,j,drawmode);
+	level->setTileType(i,j,typebrush);
 }
 
 void LevelEditor::mouseMoveEvent(QMouseEvent *event){

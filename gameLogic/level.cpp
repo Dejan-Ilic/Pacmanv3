@@ -55,20 +55,20 @@ bool Level::loadLevel(){
 			initTile(i,width-1,wall);
 		}
 
-		setType(height-2, width/2, spawn);
-		setType(1,1,ghost_floor);
-		setType(2,1,ghost_floor);
-		setType(1,2,ghost_floor);
-		setType(2,2,ghost_floor);
+		setTileType(height-2, width/2, spawn);
+		setTileType(1,1,ghost_floor);
+		setTileType(2,1,ghost_floor);
+		setTileType(1,2,ghost_floor);
+		setTileType(2,2,ghost_floor);
 
-		setType(3,1,ghost_gate);
-		setType(3,2,ghost_gate);
+		setTileType(3,1,ghost_gate);
+		setTileType(3,2,ghost_gate);
 
-		setType(1,3,wall);
-		setType(2,3,wall);
-		setType(3,3,wall);
+		setTileType(1,3,wall);
+		setTileType(2,3,wall);
+		setTileType(3,3,wall);
 
-		setType(height-2, width/2 + 1, coin);
+		setTileType(height-2, width/2 + 1, coin);
 
 		for(int j=0; j<width; j++){
 			initTile(height-1,j,wall);
@@ -111,7 +111,7 @@ bool Level::loadLevel(){
 
 	for(int i=0; i<height; ++i){
 		for(int j=0; j<width; ++j){
-			Type type = getType(i,j);
+			Type type = getTileType(i,j);
 			if(type == spawn){
 				spawnlocation = Idx(i,j);
 			}else if(type == ghost_floor && nspawns < 4){
@@ -142,28 +142,28 @@ QString Level::saveLevel(){
 		Type tij;
 		//condition 1: outer walls
 		for(int i=0; i<LEVEL_HEIGHT; ++i){
-			tij = getType(i,0);
+			tij = getTileType(i,0);
 			if(tij != wall && tij != teleportA && tij != teleportB){
 				correctly_saved = false;
 				return "Missing outer wall";
 			}
 		}
 		for(int i=0; i<LEVEL_HEIGHT; ++i){
-			tij = getType(i,LEVEL_WIDTH-1);
+			tij = getTileType(i,LEVEL_WIDTH-1);
 			if(tij != wall && tij != teleportA && tij != teleportB){
 				correctly_saved = false;
 				return "Missing outer wall";
 			}
 		}
 		for(int j=0; j<LEVEL_WIDTH; ++j){
-			tij = getType(0,j);
+			tij = getTileType(0,j);
 			if(tij != wall && tij != teleportA && tij != teleportB){
 				correctly_saved = false;
 				return "Missing outer wall";
 			}
 		}
 		for(int j=0; j<LEVEL_WIDTH; ++j){
-			tij = getType(LEVEL_HEIGHT-1,j);
+			tij = getTileType(LEVEL_HEIGHT-1,j);
 			if(tij != wall && tij != teleportA && tij != teleportB){
 				correctly_saved = false;
 				return "Missing outer wall";
@@ -176,7 +176,7 @@ QString Level::saveLevel(){
 
 		for(int i=0; i<LEVEL_HEIGHT; ++i){
 			for(int j=0; j<LEVEL_WIDTH; ++j){
-				tij = getType(i,j);
+				tij = getTileType(i,j);
 				switch(tij){
 				case spawn: ++spawncount; break;
 				case teleportA: ++tpAcount; break;
@@ -207,7 +207,7 @@ QString Level::saveLevel(){
 	myfile.open ( (levelname + LEVEL_SUFFIX).toStdString() );
 	for(int i=0; i<LEVEL_HEIGHT; ++i){
 		for(int j=0; j<LEVEL_WIDTH; ++j){
-			myfile << Tile::encode(this->getType(i,j));
+			myfile << Tile::encode(this->getTileType(i,j));
 		}
 		myfile << std::endl;
 	}
@@ -217,21 +217,21 @@ QString Level::saveLevel(){
 	return "Save succesful";
 }
 
-enum Type Level::getType(int i, int j) const{
+enum Type Level::getTileType(int i, int j) const{
 	Tile t = tiles[i*width + j]; //cannot use getTile
 	return t.getType();
 }
 
-enum Type Level::getType(const Idx &v) const{
-	return getType(v.i, v.j);
+enum Type Level::getTileType(const Idx &v) const{
+	return getTileType(v.i, v.j);
 }
 
-void Level::setType(int i, int j, enum Type t){
+void Level::setTileType(int i, int j, enum Type t){
 	getTile(i,j).setType(t);
 }
 
 void Level::initTile(int i, int j, enum Type t){
-	setType(i, j, t);
+	setTileType(i, j, t);
 	getTile(i,j).setPos_ij(i,j);
 	scene->addItem(&getTile(i,j));
 }
@@ -267,11 +267,11 @@ Type Level::eat(Vec v){
 
 	//v: pacman pos, p: square he is in, pCenter: center pos of that square
 
-	Type type = getType(p);
+	Type type = getTileType(p);
 	bool edible = (type == coin || type == fruit || type == pill);
 
 	if(edible && v.l1dist(pCenter) <= EAT_DIST){
-		setType(p.i, p.j, empty);
+		setTileType(p.i, p.j, empty);
 
 		if(type == coin){
 			numcoins = numcoins - 1;

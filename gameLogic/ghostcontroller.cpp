@@ -35,7 +35,7 @@ void GhostController::navigate(Level *level){
 		lastturn = ghostidx;
 
 		//let me exit the ghost waiting room!
-		Type underme = level->getType(ghostidx);
+		Type underme = level->getTileType(ghostidx);
 		if(underme == ghost_floor || underme == ghost_gate){
 			ghost->setCanPassGate(true);
 		}else{
@@ -64,7 +64,7 @@ void GhostController::navigate(Level *level){
 		QList<Direction> candidatedirections = {lookCur, lookA, lookB};
 
 		for(int i=2; i>=0; --i){
-			Type type = level->getType(candidates.at(i));
+			Type type = level->getTileType(candidates.at(i));
 			if(type == wall || (type == ghost_gate && !ghost->getCanPassGate())){
 				candidates.removeAt(i);
 				candidatedirections.removeAt(i);

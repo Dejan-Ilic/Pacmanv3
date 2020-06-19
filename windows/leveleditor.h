@@ -22,8 +22,7 @@ public:
 private:
 	QGraphicsScene *scene;
 	Level *level;
-	QString levelname;
-	Type drawmode = empty;
+	Type typebrush = empty;
 
 	QGraphicsSimpleTextItem *quit;
 	static const int Nlabels = 10;
@@ -38,7 +37,7 @@ private:
 
 	void saveLevel();
 	int getButtonIdx(Type t);
-	void switchMode(Type t);
+	void switchBrush(Type t);
 
 	void keyPressEvent(QKeyEvent *event) override;
 	void mousePressEvent(QMouseEvent *event) override;

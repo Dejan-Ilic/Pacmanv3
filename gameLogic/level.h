@@ -9,9 +9,9 @@ public:
 	Level(QString levelname, enum DrawMode drawmode, QGraphicsScene *scene);
 	~Level();
 
-	enum Type getType(int i, int j) const;
-	enum Type getType(const Idx &v) const;
-	void setType(int i, int j, enum Type t);
+	enum Type getTileType(int i, int j) const;
+	enum Type getTileType(const Idx &v) const;
+	void setTileType(int i, int j, enum Type t);
 	bool isCorrectlyLoaded() const;
 	bool isCorrectlySaved() const;
 	Idx getSpawn() const;
