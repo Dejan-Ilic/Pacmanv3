@@ -5,6 +5,9 @@
 class Pacman: public Sprite{
 public:
 	Pacman(QString appearance, int speed);
+
+private:
+	void rotateSprite() override;
 };
 
 #endif // PACMAN_H

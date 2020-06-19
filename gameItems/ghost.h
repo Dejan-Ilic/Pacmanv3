@@ -27,7 +27,7 @@ private:
 
 	GhostController *controller;
 
-	void rotateSprite();
+	void rotateSprite() override;
 
 };
 

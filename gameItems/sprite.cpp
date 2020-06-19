@@ -53,10 +53,6 @@ void Sprite::move(const Level *level){
 
 }
 
-void Sprite::rotateSprite(){
-	setRotation(getPacmanRotation(curdir));
-}
-
 bool Sprite::isAlive() const{
 	return alive;
 }

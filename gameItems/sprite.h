@@ -38,7 +38,7 @@ protected:
 	bool canPassGate = false;
 	bool alive = true;
 
-	virtual void rotateSprite();
+	virtual void rotateSprite() = 0;
 };
 
 #endif // SPRITE_H
