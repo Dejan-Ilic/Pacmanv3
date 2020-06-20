@@ -3,8 +3,7 @@
 
 #include "direction.h"
 
-class Idx  //simple container, like Vec, but for indices
-{
+class Idx{  //simple container, like Vec, but for indices
 public:
 	int i,j;
 	Idx(int i = 0, int j = 0): i(i), j(j){};

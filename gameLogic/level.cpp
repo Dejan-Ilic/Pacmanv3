@@ -230,6 +230,10 @@ void Level::setTileType(int i, int j, enum Type t){
 	getTile(i,j).setType(t);
 }
 
+void Level::setTileType(const Idx &v, Type t){
+	setTileType(v.i, v.j, t);
+}
+
 void Level::initTile(int i, int j, enum Type t){
 	setTileType(i, j, t);
 	getTile(i,j).setPos_ij(i,j);

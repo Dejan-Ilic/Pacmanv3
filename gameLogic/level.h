@@ -12,6 +12,7 @@ public:
 	enum Type getTileType(int i, int j) const;
 	enum Type getTileType(const Idx &v) const;
 	void setTileType(int i, int j, enum Type t);
+	void setTileType(const Idx &v, enum Type t);
 	bool isCorrectlyLoaded() const;
 	bool isCorrectlySaved() const;
 	Idx getSpawn() const;

@@ -3,8 +3,7 @@
 
 #include "direction.h"
 
-class Vec //very simple container
-{
+class Vec{//very simple container
 public:
 	int x,y;
 	Vec(int x = 0, int y = 0): x(x), y(y){};
