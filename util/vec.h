@@ -11,6 +11,8 @@ public:
 	Vec(enum Direction d);
 
 	Vec operator+(const Vec &v) const;
+	Vec operator-(const Vec &v) const;
+	friend Vec operator*(int lambda, const Vec &v);
 
 	int l1dist(const Vec &v) const;
 	int l2distSquared(const Vec &v) const;
