@@ -313,6 +313,16 @@ void LevelMaker::on_CopyButton_clicked(){
 		return;
 	}
 
+	//check for duplicates
+	for(int i = 0; i < ui->selectedLevels->count(); ++i){
+		QListWidgetItem* item = ui->selectedLevels->item(i);
+
+		QString levelname = item->text();
+		if(levelname == newname){
+			return;
+		}
+	}
+
 	ui->availableLevels->addItem(newname);
 
 	//copy file
