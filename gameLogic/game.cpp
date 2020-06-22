@@ -60,7 +60,10 @@ Game::Game(QWidget *parent){
 	}
 
 	//init level
-	loadLevel();
+	if(!loadLevel()){
+		loadingerror = true;
+		return;
+	}
 
 	//init sprites
 	spawnSprites();
@@ -255,7 +258,10 @@ void Game::keyPressEvent(QKeyEvent *event){
 
 			increaseLevel(1);
 
-			loadLevel();
+			if(!loadLevel()){
+				loadingerror = true;
+				return;
+			}
 			spawnSprites();
 			startTimers();
 
@@ -286,15 +292,15 @@ void Game::increaseLevel(int amount){
 	levelsplayedText.setText(QString("Levels played: %1").arg(levelsplayed));
 }
 
-void Game::loadLevel(){
+bool Game::loadLevel(){
 	QString name = levellist.at(curlevel);
 
 	level = new Level(name, DRAWMODE_GAME, scene);
 	if(!level->isCorrectlyLoaded()){
 		QMessageBox::warning(this, "LEVEL LOADING ERROR",
 	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press (K) to quit.");
-		return;
 	}
+	return level->isCorrectlyLoaded();
 }
 
 void Game::clearLevel(){

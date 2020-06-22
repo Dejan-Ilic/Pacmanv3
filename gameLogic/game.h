@@ -65,7 +65,7 @@ private:
 	void stopTimers();
 	void clearSprites();
 	void spawnSprites();
-	void loadLevel();
+	bool loadLevel();
 	void clearLevel();
 
 	//ghosts

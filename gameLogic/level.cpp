@@ -24,7 +24,9 @@ Level::Level(QString levelname, DrawMode dm, QGraphicsScene *scene):
 }
 
 Level::~Level(){
-	delete[] tiles;
+	if(correctly_loaded){
+		delete[] tiles;
+	}
 }
 
 Tile& Level::getTile(int i, int j){

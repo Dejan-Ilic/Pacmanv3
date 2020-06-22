@@ -31,15 +31,6 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 
 	setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 
-	//init level
-	level = new Level(levelname, DRAWMODE_EDITOR, scene);
-	if(!level->isCorrectlyLoaded()){
-		QMessageBox::warning(this, "LEVEL LOADING ERROR",
-	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press \"K\" to quit.");
-		return;
-	}
-
-
 	//init editor gui
 	for(int i=0; i<Nlabels; ++i){
 		typebrush = drawtype[i];
@@ -58,10 +49,20 @@ LevelEditor::LevelEditor(QString levelname, QWidget *parent):
 	quit = scene->addSimpleText("quit (K)");
 	quit->setPos(700, 500);
 	quit->setBrush(unselected);
+
+	//init level
+	level = new Level(levelname, DRAWMODE_EDITOR, scene);
+	if(!level->isCorrectlyLoaded()){
+		QMessageBox::warning(this, "LEVEL LOADING ERROR",
+	"Something went wrong while loading this level. The level file is possibly corrupted. Close this message and press \"K\" to quit.");
+		return;
+	}
 }
 
 LevelEditor::~LevelEditor(){
+	delete level;
 	delete quit;
+
 	for(int i=0; i<Nlabels; ++i){
 		delete label[i];
 	}
@@ -111,6 +112,11 @@ void LevelEditor::saveLevel(){
 void LevelEditor::keyPressEvent(QKeyEvent *event){
 	const int key = event->key();
 
+	if(!level->isCorrectlyLoaded()){
+		on_MainMenuButton_clicked();
+		return;
+	}
+
 	switch(key){
 	case Qt::Key_K:
 		saveLevel();
@@ -153,6 +159,10 @@ void LevelEditor::keyPressEvent(QKeyEvent *event){
 }
 
 void LevelEditor::mousePressEvent(QMouseEvent *event){
+	if(!level->isCorrectlyLoaded()){
+		return;
+	}
+
 	int i = floor(0.5 + (event->y() - TILE_HEIGHT/2)/static_cast<double>(TILE_HEIGHT));
 	int j = floor(0.5 + (event->x() - TILE_WIDTH/2)/static_cast<double>(TILE_WIDTH));
 
